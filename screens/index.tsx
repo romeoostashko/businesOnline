@@ -1,2 +1,3 @@
-export { CustomerScreen } from "./CustomerScreen";
-export { PurchasesScreen } from "./PurchasesScreen";
+export { NewOrdersScreen } from "./NewOrdersScreen";
+export { OrdersScreen } from "./OrdersScreen";
+export { DetailOrderScreen } from "./DetailOrderScreen";

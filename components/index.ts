@@ -1,2 +1,1 @@
-export { RegularText } from "./RegularText";
-export { CentrendWrapper } from "./CentrendWrapper";
+export { RowOrder } from "./RowOrder";

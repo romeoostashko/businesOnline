@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet } from "react-native";
-import { CentrendWrapper, RegularText } from "../../components";
 
-export const PurchasesScreen = (props) => {
+export const NewOrdersScreen = (props) => {
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.session.customers);
 
   return (
-    <CentrendWrapper>
-      <RegularText>Ghbds</RegularText>
-    </CentrendWrapper>
+    <View>
+      <Text>This is customers</Text>
+    </View>
   );
 };
 

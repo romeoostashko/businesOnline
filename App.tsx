@@ -6,7 +6,7 @@ import { sessionReduser } from "./store/session/reducer";
 import TopTabNanigator from "./routes/TopTabsNavigators";
 import { StatusBar } from "expo-status-bar";
 
-import { Purchases } from "./screens/PurchasesScreen/index";
+import { Purchases } from "./screens/OrdersScreen/index";
 
 const rootReducer = combineReducers({ session: sessionReduser });
 const store = createStore(rootReducer);

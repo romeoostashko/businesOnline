@@ -1,12 +1,15 @@
 import { createStackNavigator } from "react-navigation-stack";
-import { CustomerScreen, PurchasesScreen } from "../screens";
+import { DetailOrderScreen, OrdersScreen } from "../screens";
 
 const RouteConfigs = {
-  Purchases: {
-    screen: PurchasesScreen,
-    navigationOptions: { title: "Продажі" },
+  Orders: {
+    screen: OrdersScreen,
+    navigationOptions: { title: "Всі замовлення" },
   },
-  Customer: { screen: CustomerScreen },
+  DetailOrder: {
+    screen: DetailOrderScreen,
+    navigationOptions: { title: "Замовлення" },
+  },
 };
 const StackNavigatorConfig = {};
 
