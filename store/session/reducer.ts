@@ -1,16 +1,9 @@
 import { SESSION_STATE, SESSION_NEW_CUSTOMER } from "./constants";
 import { ActionObject } from "./types";
+import { orders } from "../../data/dammy";
 
 const initialState = {
-  customers: [
-    {
-      id: "1",
-      name: "Roma",
-      purchases: "Куртка",
-      price: 20,
-      isPaid: true,
-    },
-  ],
+  orders: orders,
 };
 
 export const sessionReduser = (state = initialState, action: ActionObject) => {

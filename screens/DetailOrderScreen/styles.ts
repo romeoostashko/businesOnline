@@ -1,7 +1,5 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 export const Wrapper = styled.View`
   justify-content: flex-start;
@@ -9,15 +7,14 @@ export const Wrapper = styled.View`
   flex: 1;
   margin: 0 auto;
   margin-top: 20px;
-  width: 80%;
+  margin-bottom: 40px;
+  width: 90%;
 `;
 
 export const StyledInput = styled.TextInput`
-  border: 1px;
-  border-radius: 8px;
-  border-color: #ccc;
-  text-align: center;
-  height: 40px;
+  flex: ${({ flex }) => flex || null};
+  text-align: left;
+  height: 50px;
   font-size: 16px;
   padding: 0 10px;
 `;
@@ -26,33 +23,45 @@ export const InputPrice = styled.TextInput`
   border: 1px;
   border-radius: 5px;
   text-align: center;
-  height: 30px;
+  height: 28px;
   font-size: 14px;
   padding: 2px;
-  margin-top: 3px;
+  margin-top: 4px;
   border-color: #ccc;
+  width: 80%;
+`;
+export const OutputPrice = styled.Text`
+  text-align: center;
+  height: 28px;
+  font-size: 14px;
+  padding: 2px;
+  margin-top: 4px;
+  border-color: #ccc;
+  width: 80%;
 `;
 
 export const WrapperTop = styled.View`
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 export const Icon = styled.View`
-  margin-bottom: 5px;
+  padding-top: 5px;
+  margin-bottom: 3px;
+
   justify-content: center;
   align-items: center;
 `;
 
 export const CeilTop = styled.View`
   background-color: #fff;
-  padding: 5px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding: 0px;
+  padding-bottom: 0px;
+  padding-top: 0px;
   border-radius: 5px;
-  width: 22%;
+  width: 23%;
 `;
 
 export const Row = styled.View`
@@ -64,8 +73,32 @@ export const Row = styled.View`
 `;
 
 export const WrapperRow = styled.View`
-  margin-bottom: 5px;
+  elevation: 3;
+  margin: 5px;
+  background-color: #fff;
+  border-radius: 9;
   width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+export const WrapperRowName = styled.View`
+  elevation: 3;
+  margin: 10px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 9;
+  width: 100%;
+  flex-direction: row;
+`;
+
+export const WrapperRowNameOrder = styled.View`
+  elevation: 3;
+  margin: 10px;
+  margin-bottom: 5px;
+  background-color: #fff;
+  border-radius: 9;
+  width: 100%;
+  flex-direction: row;
 `;
 
 export const RegularText = styled.Text`
@@ -80,16 +113,24 @@ export const PriceText = styled.Text`
 `;
 
 export const WrapperNotes = styled.View`
+  background-color: #fff;
+  elevation: 3;
   width: 100%;
-  padding: 5px;
-  border: 1px;
+  padding: 8px;
   margin-top: 20px;
   border-radius: 10px;
-  border-color: #ccc;
 `;
 
 export const Notes = styled.TextInput`
   justify-content: flex-start;
   align-items: flex-start;
-  height: 100;
+  height: 80;
+`;
+
+export const ViewOrders = styled.View`
+  height: 90px;
+  width: 100%;
+  background-color: #fff;
+  margin-top: 20px;
+  border-radius: 9px;
 `;
