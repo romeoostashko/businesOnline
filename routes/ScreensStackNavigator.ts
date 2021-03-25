@@ -11,6 +11,21 @@ const RouteConfigs = {
     navigationOptions: { title: "Замовлення" },
   },
 };
-const StackNavigatorConfig = {};
+const StackNavigatorConfig = {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: "#f4511e",
+      height: 75,
+    },
 
-export const ScreensStackNavigator = createStackNavigator(RouteConfigs);
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold",
+    },
+  },
+};
+
+export const ScreensStackNavigator = createStackNavigator(
+  RouteConfigs,
+  StackNavigatorConfig
+);

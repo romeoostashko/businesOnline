@@ -89,6 +89,17 @@ export const WrapperRowName = styled.View`
   border-radius: 9;
   width: 100%;
   flex-direction: row;
+  height: 50px;
+`;
+export const WrapperRowNameUser = styled.View`
+  elevation: 3;
+  height: 50px;
+  background-color: #fff;
+  border-radius: 9;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const WrapperRowNameOrder = styled.View`
