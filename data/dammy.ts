@@ -7,9 +7,23 @@ export const orders = [
     isPaid: false,
     isSheep: true,
     isGiven: true,
-    shopItems: [
-      { name: "Vitamin C", price: "25", number: 2 },
-      { name: "Vitamin C", price: "25", number: 2 },
+    comment: "dfg",
+    adress: "dfg",
+    products: [
+      {
+        nameProduct: "Vitamin C",
+        price: "25",
+        priceOrigin: "20",
+        number: 2,
+        id: 1,
+      },
+      {
+        nameProduct: "Vitamin C",
+        price: "25",
+        priceOrigin: "20",
+        number: 2,
+        id: 2,
+      },
     ],
   },
   {
@@ -20,9 +34,23 @@ export const orders = [
     isPaid: true,
     isSheep: false,
     isGiven: true,
-    shopItems: [
-      { name: "Vitamin C", price: "25", number: 2 },
-      { name: "Vitamin C", price: "25", number: 2 },
+    comment: "",
+    adress: "",
+    products: [
+      {
+        nameProduct: "Vitamin C",
+        price: "25",
+        priceOrigin: "20",
+        number: 2,
+        id: 1,
+      },
+      {
+        nameProduct: "Vitamin C",
+        price: "25",
+        priceOrigin: "20",
+        number: 2,
+        id: 2,
+      },
     ],
   },
   {
@@ -33,16 +61,38 @@ export const orders = [
     isPaid: true,
     isSheep: true,
     isGiven: true,
-    shopItems: [
-      { name: "Vitamin C", price: "25", number: 2 },
-      { name: "Vitamin C", price: "25", number: 2 },
+    comment: "",
+    adress: "",
+
+    products: [
+      {
+        nameProduct: "Vitamin C",
+        price: "25",
+        priceOrigin: "20",
+        number: 2,
+        id: 1,
+      },
+      {
+        nameProduct: "Vitamin C",
+        price: "25",
+        priceOrigin: "20",
+        number: 2,
+        id: 2,
+      },
     ],
   },
 ];
 
 export const userNames = [
-  "Осташ Роман",
-  "Осташ Юлія",
-  "Бармак Аліна",
-  "Стефанюк Галина",
+  { name: "Осташ Роман" },
+  { name: "Осташ Юлія" },
+  { name: "Бармак Аліна" },
+  { name: "Стефанюк Галина" },
+];
+
+export const products = [
+  { name: "Вітамін С", priceOrigin: "21", id: 1 },
+  { name: "Вітамін Д", priceOrigin: "22", id: 2 },
+  { name: "Вітімн Е", priceOrigin: "23", id: 3 },
+  { name: "Вітамін О", priceOrigin: "24", id: 4 },
 ];

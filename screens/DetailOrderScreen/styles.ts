@@ -5,10 +5,9 @@ export const Wrapper = styled.View`
   justify-content: flex-start;
   align-items: center;
   flex: 1;
-  margin: 0 auto;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  width: 90%;
+  padding: 20px 20px 40px 20px;
+  width: 100%;
+  background-color: #ccc;
 `;
 
 export const StyledInput = styled.TextInput`
@@ -17,6 +16,7 @@ export const StyledInput = styled.TextInput`
   height: 50px;
   font-size: 16px;
   padding: 0 10px;
+  text-align: center;
 `;
 
 export const InputPrice = styled.TextInput`
@@ -73,16 +73,16 @@ export const Row = styled.View`
 `;
 
 export const WrapperRow = styled.View`
-  elevation: 3;
   margin: 5px;
   background-color: #fff;
   border-radius: 9;
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px 20px;
 `;
 export const WrapperRowName = styled.View`
-  elevation: 3;
   margin: 10px;
   margin-bottom: 20px;
   background-color: #fff;
@@ -92,7 +92,6 @@ export const WrapperRowName = styled.View`
   height: 50px;
 `;
 export const WrapperRowNameUser = styled.View`
-  elevation: 3;
   height: 50px;
   background-color: #fff;
   border-radius: 9;
@@ -103,13 +102,10 @@ export const WrapperRowNameUser = styled.View`
 `;
 
 export const WrapperRowNameOrder = styled.View`
-  elevation: 3;
   margin: 10px;
   margin-bottom: 5px;
-  background-color: #fff;
   border-radius: 9;
   width: 100%;
-  flex-direction: row;
 `;
 
 export const RegularText = styled.Text`
@@ -125,7 +121,7 @@ export const PriceText = styled.Text`
 
 export const WrapperNotes = styled.View`
   background-color: #fff;
-  elevation: 3;
+
   width: 100%;
   padding: 8px;
   margin-top: 20px;
@@ -139,7 +135,7 @@ export const Notes = styled.TextInput`
 `;
 
 export const ViewOrders = styled.View`
-  height: 90px;
+  height: 120px;
   width: 100%;
   background-color: #fff;
   margin-top: 20px;
