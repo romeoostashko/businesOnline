@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
+import { updateCustomer } from "../../store/session/actions";
+import { Order, NewOrder } from "./types";
+import { emptyNewOrder } from "./constants";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { theme } from "../../theme";
 import { Id } from "./components/Id";
@@ -17,13 +20,9 @@ import {
   WrapperTop,
   Notes,
   WrapperNotes,
-  WrapperRowName,
-  ViewOrders,
   WrapperRowNameOrder,
-  WrapperRowNameUser,
 } from "./styles";
 import { TouchableNFWrapper } from "../../components/TouchableNFWrapper/TouchableNFWrapper";
-import { ModalCard } from "../../components";
 
 export const DetailOrderScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -33,13 +32,9 @@ export const DetailOrderScreen = ({ navigation }) => {
   const thisOrder = orders?.find((i: object) => i.id === id);
 
   //const [isEditPrice, setEditPrice] = useState(false);
-  const [data, setData] = useState({ ...thisOrder });
-  const [dataNewProduct, setDataNewProduct] = useState({
-    nameProduct: "",
-    price: "",
-    priceOrigin: "",
-    number: "",
-  });
+  const [data, setData] = useState<Order>({ ...thisOrder });
+  console.log("thisOrder", orders);
+  const [dataNewProduct, setDataNewProduct] = useState<NewOrder>(emptyNewOrder);
 
   const setSheep = () => {};
 
@@ -52,20 +47,13 @@ export const DetailOrderScreen = ({ navigation }) => {
     if (Object.values(dataNewProduct).findIndex((i) => !i) >= 0) {
       return;
     } else {
-      const maxId = data?.products?.sort((a, b) => {
-        return -a.id + b.id;
-      })[0]?.id;
-
       setData({
         ...data,
-        products: [...data.products, { ...dataNewProduct, id: maxId + 1 }],
+        products: [...data.products, { ...dataNewProduct }],
+        totalPrice:
+          +data.totalPrice + +dataNewProduct.price * +dataNewProduct.number,
       });
-      setDataNewProduct({
-        nameProduct: "",
-        price: "",
-        priceOrigin: "",
-        number: "",
-      });
+      setDataNewProduct(emptyNewOrder);
     }
   };
 
@@ -79,17 +67,17 @@ export const DetailOrderScreen = ({ navigation }) => {
     <ScrollView>
       <Wrapper>
         <WrapperTop>
-          <Id id={id} />
-          <Price price={thisOrder.totalPrice} isPaid={thisOrder.isPaid} />
-          <Shipping isSheep={thisOrder.isSheep} />
-          <Delivery isGiven={thisOrder.isGiven} />
+          {<Id id={id} />}
+          <Price setData={setData} data={data} />
+          <Shipping isSheep={data?.isSheep} />
+          <Delivery isGiven={data?.isGiven} />
         </WrapperTop>
         {/* Кнопка зберегти */}
         <TouchableNFWrapper
           backgroundColor="salmon"
           marginTop={20}
           elevation={4}
-          onPress={() => console.log("Кнопка зберегти")}
+          onPress={() => updateCustomer(data)(dispatch)}
         >
           <Text>Зберегти</Text>
         </TouchableNFWrapper>
@@ -182,13 +170,16 @@ export const DetailOrderScreen = ({ navigation }) => {
           renderItem={({ item }) => (
             <View style={{ flexDirection: "row" }}>
               <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
+                {item?.number} шт
+              </Text>
+              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
                 {item?.nameProduct}
               </Text>
               <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.price?.toString()}
+                {item?.price?.toString()} грн
               </Text>
               <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.priceOrigin?.toString()}
+                {item?.priceOrigin?.toString()} грн
               </Text>
             </View>
           )}

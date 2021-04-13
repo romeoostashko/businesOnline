@@ -11,7 +11,7 @@ export const Delivery = ({ isGiven }) => {
     <TouchableNFWrapper
       height={TouchableNFParam.heightTNFW}
       borderRadius={TouchableNFParam.borderRadiusTNFW}
-      width={TouchableNFParam.widthTNFW}
+      width={"23%"}
       elevation={TouchableNFParam.elevationTNFW}
     >
       <Icon>

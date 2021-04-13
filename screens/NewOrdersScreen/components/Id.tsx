@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { theme } from "../../../theme";
+import React from "react";
+import {} from "react-native";
 import { TouchableNFParam } from "../constants";
 import { TouchableNFWrapper } from "../../../components/TouchableNFWrapper/TouchableNFWrapper";
 import { Icon, RegularText } from "../styles";
-import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export const Delivery = ({ isGiven }) => {
-  const [isEditPrice, setEditPrice] = useState(false);
+export const Id = ({ id }) => {
   return (
     <TouchableNFWrapper
       height={TouchableNFParam.heightTNFW}
@@ -15,13 +14,13 @@ export const Delivery = ({ isGiven }) => {
       elevation={TouchableNFParam.elevationTNFW}
     >
       <Icon>
-        <AntDesign
-          name="gift"
+        <MaterialCommunityIcons
+          name="music-accidental-sharp"
           size={28}
-          color={isGiven ? theme.palette.green : theme.palette.salmon}
+          color="black"
         />
       </Icon>
-      <RegularText>{isGiven ? "так" : "ні"}</RegularText>
+      <RegularText>{id}</RegularText>
     </TouchableNFWrapper>
   );
 };

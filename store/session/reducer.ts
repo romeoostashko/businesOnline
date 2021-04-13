@@ -15,7 +15,7 @@ export const sessionReduser = (state = initialState, action: ActionObject) => {
       return state;
     case SESSION_NEW_CUSTOMER:
       console.log(payload);
-      return { ...state, customers: state.customers.concat([payload]) };
+      return { ...state, orders: state?.orders?.concat([payload]) };
 
     default:
       return state;
