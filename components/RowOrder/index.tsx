@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-
 import {
   View,
   Text,
@@ -55,7 +53,8 @@ export const RowOrder = ({
                 ₴ {profit}
               </RegularText>
             </CentrendWrapper>
-            <CentrendWrapper flex={1.2}>
+
+            <CentrendWrapper flex={0.8}>
               <RegularText
                 color={
                   isPaid && isGiven
@@ -87,7 +86,7 @@ export const RowOrder = ({
               </RegularText>
             </CentrendWrapper>
 
-            <CentrendWrapper flex={0.5}>
+            <CentrendWrapper flex={0.3}>
               <RegularText
                 fontWeight={isPaid ? 100 : "bold"}
                 color={isPaid ? theme.palette.green : theme.palette.salmon}
@@ -95,6 +94,28 @@ export const RowOrder = ({
                 ₴ {totalPrice}
               </RegularText>
             </CentrendWrapper>
+
+            <TouchableOpacity
+              onPress={() => {
+                console.log("delete");
+              }}
+              style={{
+                //backgroundColor: "#222",
+                paddingHorizontal: 6,
+                paddingVertical: 18,
+                flex: 0.2,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <RegularText>
+                <AntDesign
+                  name="delete"
+                  size={15}
+                  color={theme.palette.salmon}
+                />
+              </RegularText>
+            </TouchableOpacity>
           </CentrendWrapperRow>
         </View>
       </TouchableNativeFeedback>

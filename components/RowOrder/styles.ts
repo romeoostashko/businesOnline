@@ -16,3 +16,11 @@ export const CentrendWrapper = styled.View`
   padding-right: 3;
   flex: ${(props) => props.flex};
 `;
+
+export const CentrendDeleteWrapper = styled.View`
+  justify-content: center;
+  align-items: center;
+  padding: 13px 8px 13px 8px;
+
+  flex: ${(props) => props.flex};
+`;

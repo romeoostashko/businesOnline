@@ -3,6 +3,7 @@ import {
   SESSION_NEW_CUSTOMER,
   SESSION_UPDATE_CUSTOMER,
   GET_ORDERS_DB,
+  DELETE_ORDER,
 } from "./constants";
 import { NewCustomer } from "./types";
 
@@ -20,6 +21,7 @@ const updateCustomerAction = (payload: NewCustomer) => ({
 });
 
 const getOrdersDBActions = (payload: []) => ({ type: GET_ORDERS_DB, payload });
+const deleteOrderActions = () => ({ type: DELETE_ORDER });
 
 /*-------------------*/
 
