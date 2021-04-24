@@ -15,7 +15,7 @@ const StackNavigatorConfig = {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: "#f4511e",
-      height: 75,
+      height: 90,
     },
 
     headerTintColor: "#fff",

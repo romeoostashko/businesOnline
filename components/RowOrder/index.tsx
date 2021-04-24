@@ -22,6 +22,7 @@ export const RowOrder = ({
   isSheep,
   isGiven,
   isPaid,
+  profit,
 }) => {
   return (
     <View style={styles.container}>
@@ -51,7 +52,7 @@ export const RowOrder = ({
                     : theme.palette.textColor
                 }
               >
-                {id}
+                ₴ {profit}
               </RegularText>
             </CentrendWrapper>
             <CentrendWrapper flex={1.2}>
@@ -68,22 +69,24 @@ export const RowOrder = ({
 
             <CentrendWrapper flex={0.3}>
               <RegularText>
-                <AntDesign
-                  name="gift"
-                  size={24}
+                <MaterialIcons
+                  name="local-shipping"
+                  size={28}
                   color={isSheep ? theme.palette.green : theme.palette.grey}
                 />
               </RegularText>
             </CentrendWrapper>
+
             <CentrendWrapper flex={0.3}>
               <RegularText>
-                <MaterialIcons
-                  name="local-shipping"
-                  size={28}
+                <AntDesign
+                  name="gift"
+                  size={24}
                   color={isGiven ? theme.palette.green : theme.palette.grey}
                 />
               </RegularText>
             </CentrendWrapper>
+
             <CentrendWrapper flex={0.5}>
               <RegularText
                 fontWeight={isPaid ? 100 : "bold"}
@@ -101,11 +104,11 @@ export const RowOrder = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 12,
-    height: 70,
-    width: "100%",
+    borderRadius: 10,
+    height: 60,
     backgroundColor: "#fff",
-    elevation: 15,
-    marginBottom: 7,
+    elevation: 0,
+    marginTop: 7,
+    marginHorizontal: 7,
   },
 });

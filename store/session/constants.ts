@@ -1,3 +1,4 @@
 export const SESSION_STATE = "session";
 export const SESSION_NEW_CUSTOMER = "SESSION_NEW_CUSTOMER";
 export const SESSION_UPDATE_CUSTOMER = "SESSION_UPDATE_CUSTOMER";
+export const GET_ORDERS_DB = "GET_ORDERS_DB";

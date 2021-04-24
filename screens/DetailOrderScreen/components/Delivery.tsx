@@ -5,7 +5,7 @@ import { TouchableNFWrapper } from "../../../components/TouchableNFWrapper/Touch
 import { Icon, RegularText } from "../styles";
 import { AntDesign } from "@expo/vector-icons";
 
-export const Delivery = ({ isGiven }) => {
+export const Delivery = ({ data, setData }) => {
   const [isEditPrice, setEditPrice] = useState(false);
   return (
     <TouchableNFWrapper
@@ -13,15 +13,18 @@ export const Delivery = ({ isGiven }) => {
       borderRadius={TouchableNFParam.borderRadiusTNFW}
       width={TouchableNFParam.widthTNFW}
       elevation={TouchableNFParam.elevationTNFW}
+      onPress={() => setData({ ...data, isGiven: !data?.isGiven })}
     >
       <Icon>
         <AntDesign
           name="gift"
           size={28}
-          color={isGiven ? theme.palette.green : theme.palette.salmon}
+          color={data?.isGiven ? theme.palette.green : theme.palette.salmon}
         />
       </Icon>
-      <RegularText>{isGiven ? "так" : "ні"}</RegularText>
+      <RegularText>
+        {data?.isGiven ? "доставлено \n клієнту" : "не доставл. \n клієнту"}
+      </RegularText>
     </TouchableNFWrapper>
   );
 };

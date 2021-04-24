@@ -5,7 +5,7 @@ import { TouchableNFWrapper } from "../../../components/TouchableNFWrapper/Touch
 import { Icon, RegularText } from "../styles";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export const Shipping = ({ isSheep }) => {
+export const Shipping = ({ data, setData }) => {
   const [isEditPrice, setEditPrice] = useState(false);
   return (
     <TouchableNFWrapper
@@ -13,16 +13,18 @@ export const Shipping = ({ isSheep }) => {
       borderRadius={TouchableNFParam.borderRadiusTNFW}
       width={TouchableNFParam.widthTNFW}
       elevation={TouchableNFParam.elevationTNFW}
-      onPress={() => {}}
+      onPress={() => setData({ ...data, isSheep: !data?.isSheep })}
     >
       <Icon>
         <MaterialIcons
           name="local-shipping"
           size={28}
-          color={isSheep ? theme.palette.green : theme.palette.salmon}
+          color={data?.isSheep ? theme.palette.green : theme.palette.salmon}
         />
       </Icon>
-      <RegularText>{isSheep ? "так" : "ні"}</RegularText>
+      <RegularText>
+        {data?.isSheep ? "товар \n прийшов" : "товар \n  не прийшов"}
+      </RegularText>
     </TouchableNFWrapper>
   );
 };

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { View } from "react-native";
 import { theme } from "../../../theme";
 import { TouchableNFParam } from "../constants";
 import { TouchableNFWrapper } from "../../../components/TouchableNFWrapper/TouchableNFWrapper";
-import { Icon, InputPrice, OutputPrice } from "../styles";
+import { Icon, InputPrice, OutputPrice, PriceContainer } from "../styles";
 import { Entypo } from "@expo/vector-icons";
+import { RegularText } from "../../../components/RegularText/RegularText";
 
 export const Price = ({ data, setData }) => {
   const [isEditPrice, setEditPrice] = useState(false);
@@ -21,20 +23,27 @@ export const Price = ({ data, setData }) => {
         <Entypo
           name="price-tag"
           size={24}
-          color={data.isPaid ? theme.palette.green : theme.palette.salmon}
+          color={data?.isPaid ? theme.palette.green : theme.palette.salmon}
         />
       </Icon>
-      {isEditPrice ? (
-        <InputPrice
-          onChangeText={(text) => {
-            setData({ ...data, totalPrice: text });
-          }}
-          placeholder="ціна"
-          value={data.totalPrice}
-        />
-      ) : (
-        <OutputPrice>{data.totalPrice}</OutputPrice>
-      )}
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <PriceContainer>Ціна</PriceContainer>
+        {isEditPrice ? (
+          <InputPrice
+            onChangeText={(text) => {
+              setData({ ...data, totalPrice: text });
+            }}
+            placeholder="пиши"
+            value={data?.totalPrice}
+          />
+        ) : (
+          <OutputPrice>{data?.totalPrice}</OutputPrice>
+        )}
+      </View>
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <RegularText>Дохід</RegularText>
+        <RegularText>{data?.profit?.toString()}</RegularText>
+      </View>
     </TouchableNFWrapper>
   );
 };

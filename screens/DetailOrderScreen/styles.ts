@@ -28,7 +28,6 @@ export const InputPrice = styled.TextInput`
   padding: 2px;
   margin-top: 4px;
   border-color: #ccc;
-  width: 80%;
 `;
 export const OutputPrice = styled.Text`
   text-align: center;
@@ -37,7 +36,10 @@ export const OutputPrice = styled.Text`
   padding: 2px;
   margin-top: 4px;
   border-color: #ccc;
-  width: 80%;
+`;
+export const PriceContainer = styled.Text`
+  padding: 2px;
+  margin-top: 4px;
 `;
 
 export const WrapperTop = styled.View`

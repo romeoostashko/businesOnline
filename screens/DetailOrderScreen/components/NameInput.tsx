@@ -37,6 +37,7 @@ export const NameInput = ({
 }) => {
   const [findNames, setFindNames] = useState([]);
   const [hidePanel, setHidePanel] = useState<boolean>(true);
+  const EXTRAСHARGE = 30; // мінімальна націнка
 
   const getArrayProducts = () => {
     const arr: object[] = [];
@@ -76,9 +77,11 @@ export const NameInput = ({
           ? userNames?.find((j: object) => j.name === name).priceOrigin
           : null,
         price: isProducts
-          ? +userNames?.find((j: object) => j.name === name).priceOrigin + 30
+          ? +userNames?.find((j: object) => j.name === name).priceOrigin +
+            EXTRAСHARGE
           : null,
         number: isProducts ? "1" : null,
+        profit: isProducts ? EXTRAСHARGE : null,
       });
 
     setHidePanel(true);

@@ -7,7 +7,6 @@ import { Order, NewOrder } from "./types";
 import { emptyNewOrder } from "./constants";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { theme } from "../../theme";
-import { Id } from "./components/Id";
 import { Price } from "./components/Price";
 import { Shipping } from "./components/Shipping";
 import { Delivery } from "./components/Delivery";
@@ -27,13 +26,10 @@ import { TouchableNFWrapper } from "../../components/TouchableNFWrapper/Touchabl
 export const DetailOrderScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const id = navigation?.getParam("id");
-
   const { orders, userNames, products } = useSelector((state) => state.session);
-  const thisOrder = orders?.find((i: object) => i.id === id);
-
-  //const [isEditPrice, setEditPrice] = useState(false);
-  const [data, setData] = useState<Order>({ ...thisOrder });
-  console.log("thisOrder", orders);
+  const arr = Object?.entries(orders);
+  const thisOrder = arr?.find((i) => i[0] === id);
+  const [data, setData] = useState<Order>({ ...thisOrder[1] });
   const [dataNewProduct, setDataNewProduct] = useState<NewOrder>(emptyNewOrder);
 
   const setSheep = () => {};
@@ -43,41 +39,70 @@ export const DetailOrderScreen = ({ navigation }) => {
   };
 
   const addToCard = () => {
-    Object.values(dataNewProduct);
-    if (Object.values(dataNewProduct).findIndex((i) => !i) >= 0) {
+    const arr = Object.entries(dataNewProduct).filter((i) =>
+      i[0] === "profit" ? false : true
+    );
+    console.log("Додаю до корзини..."); /*DEV*/
+    if (arr.findIndex((i) => !i[1]) >= 0) {
+      console.log("Поля (товар, кількість, ціна) не заповнено"); /*DEV*/
       return;
     } else {
       setData({
         ...data,
-        products: [...data.products, { ...dataNewProduct }],
+        products: [...data?.products, { ...dataNewProduct }],
         totalPrice:
-          +data.totalPrice + +dataNewProduct.price * +dataNewProduct.number,
+          +data?.totalPrice + +dataNewProduct?.price * +dataNewProduct?.number,
+        profit: (!data?.profit ? 0 : +data?.profit) + +dataNewProduct?.profit,
       });
       setDataNewProduct(emptyNewOrder);
+      console.log("Товар успішно додано до корзини +"); /*DEV*/
     }
   };
 
   const changeTextNewProduct = (text: string, name: string) => {
-    setDataNewProduct({ ...dataNewProduct, [name]: text });
+    //console.log(dataNewProduct);
+    setDataNewProduct({
+      ...dataNewProduct,
+      [name]: text,
+      profit:
+        name === "number"
+          ? (
+              (+dataNewProduct.price - +dataNewProduct.priceOrigin) *
+              +text
+            ).toString()
+          : name === "price"
+          ? (
+              (+text - +dataNewProduct.priceOrigin) *
+              +dataNewProduct.number
+            ).toString()
+          : name === "priceOrigin"
+          ? (
+              (+dataNewProduct.price - +text) *
+              +dataNewProduct.number
+            ).toString()
+          : 0,
+    });
   };
-  console.log("data", data);
-  console.log("dataNewProduct", dataNewProduct);
 
   return (
     <ScrollView>
       <Wrapper>
         <WrapperTop>
-          {<Id id={id} />}
+          {/*<Id id={id} />*/}
           <Price setData={setData} data={data} />
-          <Shipping isSheep={data?.isSheep} />
-          <Delivery isGiven={data?.isGiven} />
+          <Shipping data={data} setData={setData} />
+          <Delivery data={data} setData={setData} />
         </WrapperTop>
+
         {/* Кнопка зберегти */}
         <TouchableNFWrapper
           backgroundColor="salmon"
           marginTop={20}
           elevation={4}
-          onPress={() => updateCustomer(data)(dispatch)}
+          onPress={() => {
+            updateCustomer(data, id)(dispatch);
+            navigation.goBack();
+          }}
         >
           <Text>Зберегти</Text>
         </TouchableNFWrapper>
@@ -155,6 +180,7 @@ export const DetailOrderScreen = ({ navigation }) => {
           </View>
         </WrapperRow>
 
+        {/**** ДОДАТИ ДО КОРЗИНИ ****/}
         <TouchableNFWrapper
           onPress={addToCard}
           backgroundColor="mediumseagreen"
@@ -167,6 +193,7 @@ export const DetailOrderScreen = ({ navigation }) => {
         <FlatList
           style={{ flexGrow: 1, height: 100, width: "100%" }}
           data={data?.products}
+          keyExtractor={() => Math.random().toString()}
           renderItem={({ item }) => (
             <View style={{ flexDirection: "row" }}>
               <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
@@ -180,6 +207,9 @@ export const DetailOrderScreen = ({ navigation }) => {
               </Text>
               <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
                 {item?.priceOrigin?.toString()} грн
+              </Text>
+              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
+                {item?.profit?.toString()} грн
               </Text>
             </View>
           )}

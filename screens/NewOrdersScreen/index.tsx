@@ -7,11 +7,11 @@ import { Order, NewOrder } from "./types";
 import { emptyData, emptyNewOrder } from "./constants";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { theme } from "../../theme";
-import { Id } from "./components/Id";
-import { Price } from "./components/Price";
-import { Shipping } from "./components/Shipping";
-import { Delivery } from "./components/Delivery";
-import { NameInput } from "./components/NameInput";
+import { Id } from "../DetailOrderScreen/components/Id";
+import { Price } from "../DetailOrderScreen/components/Price";
+import { Shipping } from "../DetailOrderScreen/components/Shipping";
+import { Delivery } from "../DetailOrderScreen/components/Delivery";
+import { NameInput } from "../DetailOrderScreen/components/NameInput";
 
 import {
   StyledInput,
@@ -38,51 +38,73 @@ export const NewOrdersScreen = ({ navigation }) => {
   };
 
   const addToCard = () => {
-    Object.values(dataNewProduct);
-    if (Object.values(dataNewProduct).findIndex((i) => !i) >= 0) {
+    const arr = Object.entries(dataNewProduct).filter((i) =>
+      i[0] === "profit" ? false : true
+    );
+    console.log("Додаю до корзини..."); /*DEV*/
+    if (arr.findIndex((i) => !i[1]) >= 0) {
+      console.log("Поля (товар, кількість, ціна) не заповнено"); /*DEV*/
       return;
     } else {
       setData({
         ...data,
-        products: [...data?.products, { ...dataNewProduct }],
+        products: [...data.products, { ...dataNewProduct }],
         totalPrice:
           +data.totalPrice + +dataNewProduct.price * +dataNewProduct.number,
-        profit:
-          +data.profit +
-          (+dataNewProduct.price - +dataNewProduct.priceOrigin) *
-            +dataNewProduct.number,
-        totalPriceOrigin:
-          +data.totalPriceOrigin +
-          +dataNewProduct.priceOrigin * +dataNewProduct.number,
+        profit: +data.profit + +dataNewProduct.profit,
       });
       setDataNewProduct(emptyNewOrder);
+      console.log("Товар успішно додано до корзини +"); /*DEV*/
     }
   };
 
   const changeTextNewProduct = (text: string, name: string) => {
-    setDataNewProduct({ ...dataNewProduct, [name]: text });
+    setDataNewProduct({
+      ...dataNewProduct,
+      [name]: text,
+      profit:
+        name === "number"
+          ? (
+              (+dataNewProduct.price - +dataNewProduct.priceOrigin) *
+              +text
+            ).toString()
+          : name === "price"
+          ? (
+              (+text - +dataNewProduct.priceOrigin) *
+              +dataNewProduct.number
+            ).toString()
+          : name === "priceOrigin"
+          ? (
+              (+dataNewProduct.price - +text) *
+              +dataNewProduct.number
+            ).toString()
+          : 0,
+    });
   };
-  console.log("data", data);
-  console.log("dataNewProduct", dataNewProduct);
+  const onSave = () => {
+    if (data.name.length > 3 && data.products && data.totalPrice) {
+      setNewCustomer({ ...data, date: new Date().toString })(dispatch);
+      setData(emptyData);
+      navigation.navigate("Orders");
+    }
+  };
 
   return (
     <ScrollView>
       <Wrapper>
         <WrapperTop>
-          <Id id={data.id} />
+          {/*<Id id={id} />*/}
           <Price data={data} setData={setData} />
-          <Shipping isSheep={data?.isSheep} />
-          <Delivery isGiven={data?.isGiven} />
+          <Shipping data={data} setData={setData} />
+          <Delivery data={data} setData={setData} />
         </WrapperTop>
+
         {/* Кнопка зберегти */}
         <TouchableNFWrapper
           backgroundColor="salmon"
           marginTop={20}
           elevation={4}
-          onPress={() => {
-            setNewCustomer(data)(dispatch);
-            setData(emptyData);
-          }}
+          onPress={onSave}
         >
           <Text>Зберегти</Text>
         </TouchableNFWrapper>
@@ -186,6 +208,9 @@ export const NewOrdersScreen = ({ navigation }) => {
               </Text>
               <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
                 {item?.priceOrigin?.toString()} грн
+              </Text>
+              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
+                {item?.profit?.toString()} грн
               </Text>
             </View>
           )}
