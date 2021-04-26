@@ -14,9 +14,7 @@ const TabNavigatorConfig = {
   tabBarPosition: "bottom",
 };
 
-const TopTabNanigator = createMaterialTopTabNavigator(
+export const TopTabNanigator = createMaterialTopTabNavigator(
   RouteConfigs,
   TabNavigatorConfig
 );
-
-export default createAppContainer(TopTabNanigator);

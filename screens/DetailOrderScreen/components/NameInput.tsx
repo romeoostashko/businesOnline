@@ -94,19 +94,29 @@ export const NameInput = ({
           placeholder={placeholder}
           value={data[field]}
           onChangeText={(text: string) => changeText(text, field)}
+          onEndEditing={() => {}}
         />
-        <TouchableNFWrapper
-          width={50}
-          onPress={() => {
-            setData({ ...data, [field]: "" });
-            setFindNames([]);
-            setHidePanel(true);
-          }}
-        >
-          <View>
-            <RegularText>x</RegularText>
-          </View>
-        </TouchableNFWrapper>
+        {!hidePanel ? (
+          <TouchableNFWrapper
+            width={50}
+            onPress={() => {
+              setHidePanel(true);
+            }}
+          >
+            <AntDesign name="check" size={15} color={theme.palette.green} />
+          </TouchableNFWrapper>
+        ) : (
+          <TouchableNFWrapper
+            width={50}
+            onPress={() => {
+              setData({ ...data, [field]: "" });
+              setFindNames([]);
+              setHidePanel(true);
+            }}
+          >
+            <AntDesign name="delete" size={15} color={theme.palette.salmon} />
+          </TouchableNFWrapper>
+        )}
       </WrapperRowNameUser>
 
       <View
@@ -129,6 +139,7 @@ export const NameInput = ({
             <ScrollView>
               {findNames.map((name, i) => (
                 <TouchableNFWrapper
+                  key={Math.random().toString()}
                   backgroundColor={backgroundColor}
                   onPress={() => quickEntryHandler(name)}
                 >

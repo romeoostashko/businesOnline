@@ -4,7 +4,7 @@ import { Provider, useSelector } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import { sessionReduser } from "./store/session/reducer";
-import TopTabNanigator from "./routes/TopTabsNavigators";
+import DrawerNavigator from "./routes/DrawerStack";
 import { StatusBar } from "expo-status-bar";
 
 import { Purchases } from "./screens/OrdersScreen/index";
@@ -15,7 +15,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 export default function App() {
   return (
     <Provider store={store}>
-      <TopTabNanigator />
+      <DrawerNavigator />
     </Provider>
   );
 }

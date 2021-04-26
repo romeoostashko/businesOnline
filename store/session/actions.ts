@@ -6,30 +6,32 @@ import {
   DELETE_ORDER,
 } from "./constants";
 import { NewCustomer } from "./types";
-
-const LINK_FIREBASE =
-  "https://business-online-7aba7-default-rtdb.europe-west1.firebasedatabase.app/orders";
-
-const setNewCustomerAction = (payload: NewCustomer) => ({
-  type: SESSION_NEW_CUSTOMER,
-  payload,
-});
-
-const updateCustomerAction = (payload: NewCustomer) => ({
-  type: SESSION_UPDATE_CUSTOMER,
-  payload,
-});
+import { LINK_FIREBASE } from "../../constants/constants";
 
 const getOrdersDBActions = (payload: []) => ({ type: GET_ORDERS_DB, payload });
-const deleteOrderActions = () => ({ type: DELETE_ORDER });
 
 /*-------------------*/
-
-export const getOrdersDB = () => async (dispatch: any) => {
+export const deleteOrder = (id: string) => async (dispatch: any) => {
   //async code
+  const res = await fetch(LINK_FIREBASE + "/" + id + ".json", {
+    method: "DELETE",
+    headers: { "Content-Type": "aplication/json" },
+  });
+
+  const res1 = await fetch(LINK_FIREBASE + ".json");
+  const resData = await res1.json();
+  return dispatch(getOrdersDBActions(resData));
+};
+
+export const getOrdersDB = (setLoad: (arg: boolean) => void) => async (
+  dispatch: any
+) => {
+  //async code
+  setLoad(false);
   const res = await fetch(LINK_FIREBASE + ".json");
   const resData = await res.json();
   console.log("getOrdersDB");
+  setLoad(true);
 
   return dispatch(getOrdersDBActions(resData));
 };

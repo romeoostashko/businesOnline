@@ -1,5 +1,6 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { DetailOrderScreen, OrdersScreen } from "../screens";
+import { StackNavigatorConfig } from "./constatnts";
 
 const RouteConfigs = {
   Orders: {
@@ -9,19 +10,6 @@ const RouteConfigs = {
   DetailOrder: {
     screen: DetailOrderScreen,
     navigationOptions: { title: "Замовлення" },
-  },
-};
-const StackNavigatorConfig = {
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: "#f4511e",
-      height: 90,
-    },
-
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: "bold",
-    },
   },
 };
 

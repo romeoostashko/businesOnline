@@ -5,7 +5,10 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { deleteOrder } from "../../store/session/actions";
 import { theme } from "../../theme";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { AntDesign } from "@expo/vector-icons";
@@ -22,6 +25,17 @@ export const RowOrder = ({
   isPaid,
   profit,
 }) => {
+  const dispatch = useDispatch();
+
+  const delOrder = () => {
+    deleteOrder(id)(dispatch);
+  };
+  const alert = () => {
+    Alert.alert("Увага!", "Видалити замовлення? ", [
+      { text: "Cancel", onPress: () => console.log("cancel") },
+      { text: "Ok", onPress: delOrder },
+    ]);
+  };
   return (
     <View style={styles.container}>
       <TouchableNativeFeedback
@@ -96,9 +110,7 @@ export const RowOrder = ({
             </CentrendWrapper>
 
             <TouchableOpacity
-              onPress={() => {
-                console.log("delete");
-              }}
+              onPress={alert}
               style={{
                 //backgroundColor: "#222",
                 paddingHorizontal: 6,

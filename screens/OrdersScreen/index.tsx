@@ -1,28 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { getOrdersDB } from "../../store/session/actions";
-import { View, Text, StyleSheet, ScrollView, FlatList } from "react-native";
-import { RowOrder } from "../../components";
-import { TouchableNFWrapper } from "../../components/TouchableNFWrapper/TouchableNFWrapper";
-import Test from "../../components/Test";
-import { DetailOrderScreen } from "../DetailOrderScreen";
 import { CustomHeaderButton } from "../../components/HeaderButton";
+import { getOrdersDB } from "../../store/session/actions";
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import { RowOrder } from "../../components";
+import { theme } from "../../theme";
+import { RegularText } from "../../components/RegularText/RegularText";
 
 export const OrdersScreen = ({ navigation }) => {
-  const [load, setLoad] = useState(true);
+  const [load, setLoad] = useState(false);
   const dispatch = useDispatch();
   const ord = useSelector((state: object) => state.session.orders);
 
   const getOrders = () => {
-    getOrdersDB()(dispatch);
+    getOrdersDB((x) => setLoad(x))(dispatch);
   };
   useEffect(() => {
     navigation.setParams({ getOrdersDB: getOrders });
   }, []);
 
   useEffect(() => {
-    getOrdersDB()(dispatch);
+    getOrdersDB((x) => setLoad(x))(dispatch);
   }, []);
 
   let arr = [];
@@ -30,30 +29,45 @@ export const OrdersScreen = ({ navigation }) => {
     arr = Object.entries(ord);
   }
 
+  let renderData = (
+    <View style={styles.centred}>
+      <RegularText fontSize={18} color="white">
+        У вас ще немає замовлень
+      </RegularText>
+    </View>
+  );
+
+  if (arr.length > 0) {
+    renderData = (
+      <FlatList
+        data={arr}
+        keyExtractor={() => Math.random()}
+        renderItem={(data) => {
+          return (
+            <RowOrder
+              navigation={navigation}
+              name={data.item[1].name}
+              id={data.item[0]}
+              totalPrice={data.item[1].totalPrice}
+              isSheep={data.item[1].isSheep}
+              isGiven={data.item[1].isGiven}
+              isPaid={data.item[1].isPaid}
+              profit={data.item[1].profit}
+            />
+          );
+        }}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {!arr.length ? (
-        <>
-          <Text>Завантажую дані, зачекайте...</Text>
-        </>
+      {!load ? (
+        <View style={styles.centred}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
       ) : (
-        <FlatList
-          data={arr}
-          renderItem={(data) => {
-            return (
-              <RowOrder
-                navigation={navigation}
-                name={data.item[1].name}
-                id={data.item[0]}
-                totalPrice={data.item[1].totalPrice}
-                isSheep={data.item[1].isSheep}
-                isGiven={data.item[1].isGiven}
-                isPaid={data.item[1].isPaid}
-                profit={data.item[1].profit}
-              />
-            );
-          }}
-        />
+        renderData
       )}
     </View>
   );
@@ -69,10 +83,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     marginTop: 0,
   },
+  centred: { justifyContent: "center", alignItems: "center", flex: 1 },
 });
 
 OrdersScreen.navigationOptions = ({ navigation }) => {
-  console.log("/////", navigation.getParam("getOrdersDB"));
   return {
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -80,6 +94,15 @@ OrdersScreen.navigationOptions = ({ navigation }) => {
           item="reload"
           iconName="reload"
           onPress={() => navigation.getParam("getOrdersDB")()}
+        ></Item>
+      </HeaderButtons>
+    ),
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          item="menu"
+          iconName="menu"
+          onPress={() => navigation.toggleDrawer()}
         ></Item>
       </HeaderButtons>
     ),

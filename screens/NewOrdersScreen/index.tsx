@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ScrollView, FlatList } from "react-native-gesture-handler";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { CustomHeaderButton } from "../../components/HeaderButton";
 import { Text, View } from "react-native";
 import { setNewCustomer } from "../../store/session/actions";
 import { Order, NewOrder } from "./types";
@@ -31,7 +33,9 @@ export const NewOrdersScreen = ({ navigation }) => {
   const [data, setData] = useState<Order>(emptyData);
   const [dataNewProduct, setDataNewProduct] = useState<NewOrder>(emptyNewOrder);
 
-  const setSheep = () => {};
+  useEffect(() => {
+    navigation.setParams({ saveOrder: onSave });
+  }, [data]);
 
   const changeText = (text: string, name: string) => {
     setData({ ...data, [name]: text });
@@ -99,7 +103,7 @@ export const NewOrdersScreen = ({ navigation }) => {
           <Delivery data={data} setData={setData} />
         </WrapperTop>
 
-        {/* Кнопка зберегти */}
+        {/* Кнопка зберегти 
         <TouchableNFWrapper
           backgroundColor="salmon"
           marginTop={20}
@@ -107,7 +111,7 @@ export const NewOrdersScreen = ({ navigation }) => {
           onPress={onSave}
         >
           <Text>Зберегти</Text>
-        </TouchableNFWrapper>
+        </TouchableNFWrapper>*/}
 
         <WrapperRowNameOrder>
           <NameInput
@@ -238,4 +242,18 @@ export const NewOrdersScreen = ({ navigation }) => {
       </Wrapper>
     </ScrollView>
   );
+};
+
+NewOrdersScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          item="save"
+          iconName="save"
+          onPress={() => navigation.getParam("saveOrder")()}
+        ></Item>
+      </HeaderButtons>
+    ),
+  };
 };

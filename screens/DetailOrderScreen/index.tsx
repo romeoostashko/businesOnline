@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { CustomHeaderButton } from "../../components/HeaderButton";
 import { updateCustomer } from "../../store/session/actions";
 import { Order, NewOrder } from "./types";
 import { emptyNewOrder } from "./constants";
@@ -32,7 +34,13 @@ export const DetailOrderScreen = ({ navigation }) => {
   const [data, setData] = useState<Order>({ ...thisOrder[1] });
   const [dataNewProduct, setDataNewProduct] = useState<NewOrder>(emptyNewOrder);
 
-  const setSheep = () => {};
+  const onSave = () => {
+    updateCustomer(data, id)(dispatch);
+    navigation.goBack();
+  };
+  useEffect(() => {
+    navigation.setParams({ saveOrder: onSave });
+  }, [data]);
 
   const changeText = (text: string, name: string) => {
     setData({ ...data, [name]: text });
@@ -94,7 +102,7 @@ export const DetailOrderScreen = ({ navigation }) => {
           <Delivery data={data} setData={setData} />
         </WrapperTop>
 
-        {/* Кнопка зберегти */}
+        {/* Кнопка зберегти 
         <TouchableNFWrapper
           backgroundColor="salmon"
           marginTop={20}
@@ -105,7 +113,7 @@ export const DetailOrderScreen = ({ navigation }) => {
           }}
         >
           <Text>Зберегти</Text>
-        </TouchableNFWrapper>
+        </TouchableNFWrapper>*/}
 
         <WrapperRowNameOrder>
           <NameInput
@@ -237,4 +245,18 @@ export const DetailOrderScreen = ({ navigation }) => {
       </Wrapper>
     </ScrollView>
   );
+};
+
+DetailOrderScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          item="save"
+          iconName="save"
+          onPress={() => navigation.getParam("saveOrder")()}
+        ></Item>
+      </HeaderButtons>
+    ),
+  };
 };
