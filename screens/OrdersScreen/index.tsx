@@ -16,6 +16,7 @@ export const OrdersScreen = ({ navigation }) => {
   const getOrders = () => {
     getOrdersDB((x) => setLoad(x))(dispatch);
   };
+
   useEffect(() => {
     navigation.setParams({ getOrdersDB: getOrders });
   }, []);
@@ -79,7 +80,6 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#808080",
     flex: 1,
-
     marginHorizontal: 0,
     marginTop: 0,
   },

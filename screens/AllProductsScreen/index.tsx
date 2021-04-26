@@ -2,12 +2,20 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
+import { RowProduct } from "../../components";
 
-export const AllProductsScreen = () => {
+export const AllProductsScreen = ({ navigation }) => {
   return (
-    <View>
-      <Text>dfg</Text>
-    </View>
+    <RowProduct
+      navigation={navigation}
+      name="Вітамін с5000"
+      id="df"
+      totalPrice={10}
+      numbers={5}
+      isGiven={true}
+      isPaid={true}
+      profit={10}
+    />
   );
 };
 
