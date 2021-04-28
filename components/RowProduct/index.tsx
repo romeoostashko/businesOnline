@@ -44,7 +44,7 @@ export const RowProduct = ({
         background={TouchableNativeFeedback.Ripple("#AAF", true)}
         style={{ flex: 1 }}
         onPress={() => {
-          navigation.navigate("DetailOrder", {
+          navigation.navigate("DetailProduct", {
             id: id,
           });
         }} //TODO:
