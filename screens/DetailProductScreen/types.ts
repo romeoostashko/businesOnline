@@ -12,10 +12,11 @@ export type Order = {
   totalPriceOrigin: number;
 };
 
-export type NewOrder = {
+export type NewProduct = {
   nameProduct: string;
   price: string;
   priceOrigin: string;
-  number: string;
+  number: number;
   profit: number;
+  comment: string;
 };

@@ -4,8 +4,8 @@ import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
-import { updateCustomer } from "../../store/session/actions";
-import { Order, NewOrder } from "./types";
+import { setNewProduct } from "../../store/session/actions";
+import { NewProduct } from "./types";
 import { emptyNewProduct } from "./constants";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { theme } from "../../theme";
@@ -36,45 +36,40 @@ export const DetailProductScreen = ({ navigation }) => {
     thisProduct = arr?.find((i) => i[0] === id);
   }
 
-  const [data, setData] = useState<Order>({ ...(thisProduct[1] || {}) });
-  const [dataNewProduct, setDataNewProduct] = useState<NewOrder>(
-    emptyNewProduct
-  );
+  //const [data, setData] = useState<Order>({ ...(thisProduct[1] || {}) });
+  const [dataNewProduct, setDataNewProduct] = useState<NewProduct>({
+    ...(thisProduct[1] || emptyNewProduct),
+  });
 
   const onSave = () => {
-    updateCustomer(data, id)(dispatch);
-    navigation.goBack();
+    if (
+      dataNewProduct?.nameProduct?.length > 0 &&
+      dataNewProduct?.price?.length > 0 &&
+      dataNewProduct?.priceOrigin?.length > 0
+    ) {
+      console.log("save");
+      if (id !== "NEW_PRODUCT") {
+        4;
+        updateCustomer(dataNewProduct, id)(dispatch);
+        navigation.goBack();
+      } else {
+        setNewProduct(dataNewProduct)(dispatch);
+        navigation.goBack();
+      }
+    } else {
+      console.log("dont  saved");
+    }
   };
+
   useEffect(() => {
-    navigation.setParams({ saveOrder: onSave });
-  }, [data]);
+    navigation.setParams({ saveNewProduct: onSave });
+  }, [dataNewProduct, dataNewProduct?.nameProduct?.length]);
 
   const changeText = (text: string, name: string) => {
-    setData({ ...data, [name]: text });
+    setDataNewProduct({ ...dataNewProduct, [name]: text });
   };
 
-  /*const addToCard = () => {
-    const arr = Object.entries(dataNewProduct).filter((i) =>
-      i[0] === "profit" ? false : true
-    );
-    console.log("Додаю до корзини..."); 
-    if (arr.findIndex((i) => !i[1]) >= 0) {
-      console.log("Поля (товар, кількість, ціна) не заповнено"); 
-      return;
-    } else {
-      setData({
-        ...data,
-        products: [...data?.products, { ...dataNewProduct }],
-        totalPrice:
-          +data?.totalPrice + +dataNewProduct?.price * +dataNewProduct?.number,
-        profit: (!data?.profit ? 0 : +data?.profit) + +dataNewProduct?.profit,
-      });
-      setDataNewProduct(emptyNewOrder);
-      console.log("Товар успішно додано до корзини +"); 
-    }
-  };*/
-
-  /* const changeTextNewProduct = (text: string, name: string) => {
+  const changeTextNewProduct = (text: string, name: string) => {
     //console.log(dataNewProduct);
     setDataNewProduct({
       ...dataNewProduct,
@@ -97,44 +92,12 @@ export const DetailProductScreen = ({ navigation }) => {
             ).toString()
           : 0,
     });
-  };*/
+  };
+  console.log("dataNewProduct", dataNewProduct);
 
   return (
     <ScrollView>
       <Wrapper>
-        <WrapperTop>
-          {/*<Id id={id} />*/}
-          <Price setData={setData} data={data} />
-          <Shipping data={data} setData={setData} />
-          <Delivery data={data} setData={setData} />
-        </WrapperTop>
-
-        {/* Кнопка зберегти 
-        <TouchableNFWrapper
-          backgroundColor="salmon"
-          marginTop={20}
-          elevation={4}
-          onPress={() => {
-            updateCustomer(data, id)(dispatch);
-            navigation.goBack();
-          }}
-        >
-          <Text>Зберегти</Text>
-        </TouchableNFWrapper>
-
-        <WrapperRowNameOrder>
-          <NameInput
-            isProducts={false}
-            placeholder="Ім'я клієнта"
-            field="name"
-            userNames={userNames}
-            setData={setData}
-            data={data}
-            position={{ top: 51 }}
-            elevation={5}
-          />
-        </WrapperRowNameOrder>*/}
-
         <WrapperRowNameOrder>
           <NameInput
             isProducts={true}
@@ -157,9 +120,9 @@ export const DetailProductScreen = ({ navigation }) => {
               maxLength={3}
               keyboardType="numeric"
               //placeholder="Кількість"
-              value={dataNewProduct.number.toString()}
-              onChangeText={
-                (text: string) => {} //changeTextNewProduct(text, "number")
+              value={dataNewProduct?.number?.toString()}
+              onChangeText={(text: string) =>
+                changeTextNewProduct(text, "number")
               }
             />
           </View>
@@ -172,9 +135,9 @@ export const DetailProductScreen = ({ navigation }) => {
               flex={1}
               keyboardType="numeric"
               //placeholder="Ціна"
-              value={dataNewProduct.price.toString()}
-              onChangeText={
-                (text: string) => {} // changeTextNewProduct(text, "price")
+              value={dataNewProduct?.price?.toString()}
+              onChangeText={(text: string) =>
+                changeTextNewProduct(text, "price")
               }
             />
           </View>
@@ -187,57 +150,21 @@ export const DetailProductScreen = ({ navigation }) => {
               flex={1}
               keyboardType="numeric"
               //placeholder="Ціна закупки"
-              value={dataNewProduct.priceOrigin.toString()}
-              onChangeText={
-                (text: string) => {} // changeTextNewProduct(text, "priceOrigin")
+              value={dataNewProduct?.priceOrigin?.toString()}
+              onChangeText={(text: string) =>
+                changeTextNewProduct(text, "priceOrigin")
               }
             />
           </View>
         </WrapperRow>
 
-        {/**** ДОДАТИ ДО КОРЗИНИ 
-        <TouchableNFWrapper
-          onPress={addToCard}
-          backgroundColor="mediumseagreen"
-          marginTop={7}
-          elevation={4}
-        >
-          <Text>Додати до корзини</Text>
-        </TouchableNFWrapper>
-
-        <FlatList
-          style={{ flexGrow: 1, height: 100, width: "100%" }}
-          data={data?.products}
-          keyExtractor={() => Math.random().toString()}
-          renderItem={({ item }) => (
-            <View style={{ flexDirection: "row" }}>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.number} шт
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.nameProduct}
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.price?.toString()} грн
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.priceOrigin?.toString()} грн
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.profit?.toString()} грн
-              </Text>
-            </View>
-          )}
-        />
-****/}
-
         <WrapperNotes>
           <Notes
-            placeholder="Коментар"
+            placeholder="Опис товару"
             multiline={true}
             numberOfLines={3}
             onChangeText={(text: string) => changeText(text, "comment")}
-            value={data?.comment}
+            value={dataNewProduct?.comment?.toString()}
           />
         </WrapperNotes>
       </Wrapper>
@@ -252,7 +179,7 @@ DetailProductScreen.navigationOptions = ({ navigation }) => {
         <Item
           item="save"
           iconName="save"
-          onPress={() => navigation.getParam("saveOrder")()}
+          onPress={() => navigation.getParam("saveNewProduct")()}
         ></Item>
       </HeaderButtons>
     ),

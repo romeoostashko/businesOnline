@@ -9,6 +9,7 @@ export const emptyNewProduct = {
   nameProduct: "",
   price: "",
   priceOrigin: "",
-  number: "",
+  number: 0,
   profit: 0,
+  comment: "",
 };
