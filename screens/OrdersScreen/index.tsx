@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
-import { getOrdersDB } from "../../store/session/actions";
+import { getOrdersDB, getProducts } from "../../store/session/actions";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { RowOrder } from "../../components";
 import { theme } from "../../theme";
@@ -12,9 +12,15 @@ export const OrdersScreen = ({ navigation }) => {
   const [load, setLoad] = useState(false);
   const dispatch = useDispatch();
   const ord = useSelector((state: object) => state.session.orders);
+  const products = useSelector((state: object) => state.session.products);
+
+  const [ordersFormat, setOrdersFormat] = useState([]);
+  //console.log("products", products);
+  //console.log("ord", ord);
 
   const getOrders = () => {
     getOrdersDB((x) => setLoad(x))(dispatch);
+    getProducts((x) => setLoad(x))(dispatch);
   };
 
   useEffect(() => {
@@ -23,12 +29,15 @@ export const OrdersScreen = ({ navigation }) => {
 
   useEffect(() => {
     getOrdersDB((x) => setLoad(x))(dispatch);
+    getProducts((x) => setLoad(x))(dispatch);
   }, []);
 
-  let arr = [];
-  if (Object?.keys(ord)?.length > 0) {
-    arr = Object.entries(ord);
-  }
+  useEffect(() => {
+    if (Object?.keys(ord)?.length > 0) {
+      const arr = Object.entries(ord);
+      setOrdersFormat(arr);
+    }
+  }, [ord]);
 
   let renderData = (
     <View style={styles.centred}>
@@ -38,10 +47,10 @@ export const OrdersScreen = ({ navigation }) => {
     </View>
   );
 
-  if (arr.length > 0) {
+  if (ordersFormat.length > 0) {
     renderData = (
       <FlatList
-        data={arr}
+        data={ordersFormat}
         keyExtractor={() => Math.random()}
         renderItem={(data) => {
           return (

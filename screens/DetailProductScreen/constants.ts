@@ -6,7 +6,7 @@ export const TouchableNFParam = {
 };
 
 export const emptyNewProduct = {
-  nameProduct: "",
+  name: "",
   price: "",
   priceOrigin: "",
   number: 0,

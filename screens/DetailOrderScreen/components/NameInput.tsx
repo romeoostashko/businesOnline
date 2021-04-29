@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { theme } from "../../../theme";
 import { TouchableNFWrapper } from "../../../components/TouchableNFWrapper/TouchableNFWrapper";
 import { Icon, RegularText, WrapperRowNameUser, StyledInput } from "../styles";
 import { AntDesign } from "@expo/vector-icons";
-import { ModalCard } from "../../../components";
-import { products } from "../../../data/dammy";
 
 export const NameInput = ({
   width = "100%",
@@ -37,24 +35,42 @@ export const NameInput = ({
 }) => {
   const [findNames, setFindNames] = useState([]);
   const [hidePanel, setHidePanel] = useState<boolean>(true);
+  const [namesFormat, setNamesFormat] = useState<string[]>([]);
+  const [formUsesNames, setFormUserNames] = useState<object[]>([]);
   const EXTRAСHARGE = 30; // мінімальна націнка
 
-  const getArrayProducts = () => {
-    const arr: object[] = [];
-    userNames.forEach((i: any) => {
-      arr.push(i.name);
-    });
-    return arr;
-  };
+  //console.log("userNames", userNames);
+  useEffect(() => {
+    const getArrayProducts = () => {
+      const arr: object[] = [];
+
+      Object?.entries(userNames)?.forEach((i: any) => {
+        arr.push(i[1].name);
+      });
+      setNamesFormat(arr);
+    };
+
+    const formatUserNames = () => {
+      const arr: object[] = [];
+      Object?.entries(userNames)?.forEach((i: any) => {
+        arr.push(i[1]);
+      });
+      setFormUserNames(arr);
+    };
+    getArrayProducts();
+    formatUserNames();
+  }, []);
+
+  //console.log("getArrayProducts", getArrayProducts());
 
   const changeText = (text: string, name: string) => {
     setData({ ...data, [name]: text });
     if (text.length > 1) {
       setHidePanel(false);
       setFindNames(
-        getArrayProducts().filter((name: string) => {
-          const arr = name.split(" ");
-          return arr.some((i) =>
+        namesFormat?.filter((name: string) => {
+          const arr = name?.split(" ");
+          return arr?.some((i) =>
             i.toLocaleLowerCase().startsWith(text.toLocaleLowerCase())
           );
         })
@@ -74,11 +90,10 @@ export const NameInput = ({
         ...data,
         [field]: name,
         priceOrigin: isProducts
-          ? userNames?.find((j: object) => j.name === name).priceOrigin
+          ? formUsesNames?.find((j: object) => j.name === name).priceOrigin
           : null,
         price: isProducts
-          ? +userNames?.find((j: object) => j.name === name).priceOrigin +
-            EXTRAСHARGE
+          ? +formUsesNames?.find((j: object) => j.name === name).price
           : null,
         number: isProducts ? "1" : null,
         profit: isProducts ? EXTRAСHARGE : null,

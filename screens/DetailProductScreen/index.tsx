@@ -4,14 +4,14 @@ import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
-import { setNewProduct } from "../../store/session/actions";
+import {
+  setNewProduct,
+  getProducts,
+  updateProduct,
+} from "../../store/session/actions";
 import { NewProduct } from "./types";
 import { emptyNewProduct } from "./constants";
 import { RegularText } from "../../components/RegularText/RegularText";
-import { theme } from "../../theme";
-import { Price } from "../DetailOrderScreen/components/Price";
-import { Shipping } from "../DetailOrderScreen/components/Shipping";
-import { Delivery } from "../DetailOrderScreen/components/Delivery";
 import { NameInput } from "../DetailOrderScreen/components/NameInput";
 
 import {
@@ -28,8 +28,9 @@ import { TouchableNFWrapper } from "../../components/TouchableNFWrapper/Touchabl
 export const DetailProductScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const id = navigation?.getParam("id");
+  const setLoad = navigation?.getParam("setLoad");
 
-  const { orders, userNames, products } = useSelector((state) => state.session);
+  const { products } = useSelector((state) => state.session);
   let thisProduct = {};
   if (id !== "NEW_PRODUCT") {
     const arr = Object?.entries(products);
@@ -40,20 +41,20 @@ export const DetailProductScreen = ({ navigation }) => {
   const [dataNewProduct, setDataNewProduct] = useState<NewProduct>({
     ...(thisProduct[1] || emptyNewProduct),
   });
-
+  console.log(dataNewProduct);
   const onSave = () => {
     if (
-      dataNewProduct?.nameProduct?.length > 0 &&
-      dataNewProduct?.price?.length > 0 &&
-      dataNewProduct?.priceOrigin?.length > 0
+      dataNewProduct?.name?.toString().length > 0 &&
+      dataNewProduct?.price?.toString().length > 0 &&
+      dataNewProduct?.priceOrigin?.toString().length > 0
     ) {
       console.log("save");
       if (id !== "NEW_PRODUCT") {
-        4;
-        updateCustomer(dataNewProduct, id)(dispatch);
+        updateProduct(dataNewProduct, id)(dispatch);
         navigation.goBack();
       } else {
         setNewProduct(dataNewProduct)(dispatch);
+        getProducts((x) => setLoad(x))(dispatch);
         navigation.goBack();
       }
     } else {
@@ -63,7 +64,7 @@ export const DetailProductScreen = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setParams({ saveNewProduct: onSave });
-  }, [dataNewProduct, dataNewProduct?.nameProduct?.length]);
+  }, [dataNewProduct, dataNewProduct?.name?.length]);
 
   const changeText = (text: string, name: string) => {
     setDataNewProduct({ ...dataNewProduct, [name]: text });
@@ -93,7 +94,6 @@ export const DetailProductScreen = ({ navigation }) => {
           : 0,
     });
   };
-  console.log("dataNewProduct", dataNewProduct);
 
   return (
     <ScrollView>
@@ -102,7 +102,7 @@ export const DetailProductScreen = ({ navigation }) => {
           <NameInput
             isProducts={true}
             placeholder="Товар"
-            field="nameProduct"
+            field="name"
             userNames={products}
             setData={setDataNewProduct}
             data={dataNewProduct}

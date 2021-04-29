@@ -13,7 +13,7 @@ export type Order = {
 };
 
 export type NewProduct = {
-  nameProduct: string;
+  name: string;
   price: string;
   priceOrigin: string;
   number: number;

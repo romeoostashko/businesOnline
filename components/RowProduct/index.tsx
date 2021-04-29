@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { deleteOrder } from "../../store/session/actions";
+import { deleteProduct } from "../../store/session/actions";
 import { theme } from "../../theme";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { AntDesign } from "@expo/vector-icons";
@@ -21,15 +21,19 @@ export const RowProduct = ({
   id,
   numbers,
   totalPrice,
-  isSheep,
-  isGiven,
-  isPaid,
   profit,
+  height = 60,
+}: {
+  navigation: object;
+  name: string;
+  id: string;
+  numbers: string;
+  profit: string;
+  totalPrice: string;
 }) => {
   const dispatch = useDispatch();
-
   const delOrder = () => {
-    deleteOrder(id)(dispatch);
+    deleteProduct(id)(dispatch);
   };
 
   const alert = () => {
@@ -39,7 +43,7 @@ export const RowProduct = ({
     ]);
   };
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, height: height }}>
       <TouchableNativeFeedback
         background={TouchableNativeFeedback.Ripple("#AAF", true)}
         style={{ flex: 1 }}
@@ -58,36 +62,33 @@ export const RowProduct = ({
           }}
         >
           <CentrendWrapperRow style={styles.centrend}>
-            <CentrendWrapper flex={0.4}>
+            <CentrendWrapper flex={0.2}>
               <RegularText
+                fontSize={16}
                 color={
-                  isPaid && isGiven
-                    ? theme.palette.green
-                    : theme.palette.textColor
+                  +numbers > 0 ? theme.palette.green : theme.palette.salmon
                 }
               >
                 {numbers}
               </RegularText>
             </CentrendWrapper>
 
-            <CentrendWrapper flex={0.8}>
+            <CentrendWrapper flex={0.9}>
               <RegularText
+                fontSize={14}
                 color={
-                  isPaid && isGiven
-                    ? theme.palette.green
-                    : theme.palette.textColor
+                  +numbers > 0 ? theme.palette.green : theme.palette.salmon
                 }
               >
                 {name}
               </RegularText>
             </CentrendWrapper>
 
-            <CentrendWrapper flex={0.4}>
+            <CentrendWrapper flex={0.3}>
               <RegularText
+                fontSize={14}
                 color={
-                  isPaid && isGiven
-                    ? theme.palette.green
-                    : theme.palette.textColor
+                  +numbers > 0 ? theme.palette.green : theme.palette.salmon
                 }
               >
                 ₴ {profit}
@@ -96,8 +97,11 @@ export const RowProduct = ({
 
             <CentrendWrapper flex={0.3}>
               <RegularText
-                fontWeight={isPaid ? 100 : "bold"}
-                color={isPaid ? theme.palette.green : theme.palette.salmon}
+                fontSize={14}
+                fontWeight={"bold"}
+                color={
+                  +numbers > 0 ? theme.palette.green : theme.palette.salmon
+                }
               >
                 ₴ {totalPrice}
               </RegularText>

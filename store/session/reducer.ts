@@ -2,14 +2,15 @@ import {
   SESSION_STATE,
   SESSION_NEW_CUSTOMER,
   GET_ORDERS_DB,
+  GET_PRODUCTS_DB,
 } from "./constants";
 import { ActionObject } from "./types";
-import { orders, userNames, products } from "../../data/dammy";
+import { userNames } from "../../data/dammy";
 
 const initialState = {
   orders: {},
   userNames: userNames,
-  products: products,
+  products: {},
 };
 
 export const sessionReduser = (state = initialState, action: ActionObject) => {
@@ -20,13 +21,23 @@ export const sessionReduser = (state = initialState, action: ActionObject) => {
     case SESSION_NEW_CUSTOMER:
       //console.log(payload);
       return { ...state, orders: state?.orders?.concat(payload) };
-    case GET_ORDERS_DB:
-      //console.log("payload", payload);
-      let data = payload;
+
+    case GET_PRODUCTS_DB: {
+      let dataProducts = { ...payload };
       if (!payload) {
-        data = {};
+        dataProducts = {};
       }
-      return { ...state, orders: data };
+      return { ...state, products: dataProducts };
+    }
+
+    case GET_ORDERS_DB: {
+      //console.log("payload", payload);
+      let dataOrders = { ...payload };
+      if (!payload) {
+        dataOrders = {};
+      }
+      return { ...state, orders: dataOrders };
+    }
 
     default:
       return state;
