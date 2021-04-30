@@ -9,6 +9,12 @@ import { RegularText } from "../../../components/RegularText/RegularText";
 
 export const Price = ({ data, setData }) => {
   const [isEditPrice, setEditPrice] = useState(false);
+  console.log("data--", data.products);
+  const priceAllProducts = data?.products?.reduce(
+    (a, b) => +a + +b.priceOrigin * +b.number,
+    0
+  );
+  console.log(priceAllProducts);
   return (
     <TouchableNFWrapper
       height={TouchableNFParam.heightTNFW}
@@ -31,18 +37,29 @@ export const Price = ({ data, setData }) => {
         {isEditPrice ? (
           <InputPrice
             onChangeText={(text) => {
-              setData({ ...data, totalPrice: text });
+              setData({
+                ...data,
+                totalPrice: text,
+                profit: +text - priceAllProducts,
+              });
             }}
-            placeholder="пиши"
+            placeholder="Пиши"
             value={data?.totalPrice}
+            maxLength={4}
           />
         ) : (
           <OutputPrice>{data?.totalPrice}</OutputPrice>
         )}
       </View>
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <RegularText>Дохід</RegularText>
-        <RegularText>{data?.profit?.toString()}</RegularText>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <RegularText>Дохід </RegularText>
+        <RegularText fontSize={16}>{data?.profit?.toString()}</RegularText>
       </View>
     </TouchableNFWrapper>
   );

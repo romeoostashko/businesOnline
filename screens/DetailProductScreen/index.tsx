@@ -13,7 +13,7 @@ import { NewProduct } from "./types";
 import { emptyNewProduct } from "./constants";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { NameInput } from "../DetailOrderScreen/components/NameInput";
-
+import { TouchableNFWrapper } from "../../components/TouchableNFWrapper/TouchableNFWrapper";
 import {
   StyledInput,
   Wrapper,
@@ -23,15 +23,14 @@ import {
   WrapperNotes,
   WrapperRowNameOrder,
 } from "./styles";
-import { TouchableNFWrapper } from "../../components/TouchableNFWrapper/TouchableNFWrapper";
 
 export const DetailProductScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const id = navigation?.getParam("id");
   const setLoad = navigation?.getParam("setLoad");
-
   const { products } = useSelector((state) => state.session);
   let thisProduct = {};
+
   if (id !== "NEW_PRODUCT") {
     const arr = Object?.entries(products);
     thisProduct = arr?.find((i) => i[0] === id);
@@ -41,7 +40,7 @@ export const DetailProductScreen = ({ navigation }) => {
   const [dataNewProduct, setDataNewProduct] = useState<NewProduct>({
     ...(thisProduct[1] || emptyNewProduct),
   });
-  console.log(dataNewProduct);
+
   const onSave = () => {
     if (
       dataNewProduct?.name?.toString().length > 0 &&
@@ -71,7 +70,6 @@ export const DetailProductScreen = ({ navigation }) => {
   };
 
   const changeTextNewProduct = (text: string, name: string) => {
-    //console.log(dataNewProduct);
     setDataNewProduct({
       ...dataNewProduct,
       [name]: text,
@@ -115,11 +113,9 @@ export const DetailProductScreen = ({ navigation }) => {
           <View>
             <RegularText textAlign="center">Кількість</RegularText>
             <StyledInput
-              //style={{ backgroundColor: "#ccc" }}
               flex={1}
               maxLength={3}
               keyboardType="numeric"
-              //placeholder="Кількість"
               value={dataNewProduct?.number?.toString()}
               onChangeText={(text: string) =>
                 changeTextNewProduct(text, "number")
@@ -130,11 +126,9 @@ export const DetailProductScreen = ({ navigation }) => {
           <View>
             <RegularText textAlign="center">Ціна</RegularText>
             <StyledInput
-              //style={{ backgroundColor: "#ccc" }}
               maxLength={4}
               flex={1}
               keyboardType="numeric"
-              //placeholder="Ціна"
               value={dataNewProduct?.price?.toString()}
               onChangeText={(text: string) =>
                 changeTextNewProduct(text, "price")
@@ -145,11 +139,9 @@ export const DetailProductScreen = ({ navigation }) => {
           <View>
             <RegularText textAlign="center">Ціна закупки</RegularText>
             <StyledInput
-              //style={{ backgroundColor: "#ccc" }}
               maxLength={4}
               flex={1}
               keyboardType="numeric"
-              //placeholder="Ціна закупки"
               value={dataNewProduct?.priceOrigin?.toString()}
               onChangeText={(text: string) =>
                 changeTextNewProduct(text, "priceOrigin")

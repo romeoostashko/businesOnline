@@ -41,6 +41,7 @@ export const AllProductsScreen = ({ navigation }) => {
         <Text style={{ flex: 0.3 }}>Прибуток</Text>
         <Text style={{ flex: 0.3 }}>Ціна</Text>
       </View>
+
       {!load ? (
         <View style={styles.centred}>
           <ActivityIndicator size="large" color="#fff" />

@@ -13,6 +13,7 @@ import { theme } from "../../theme";
 import { RegularText } from "../../components/RegularText/RegularText";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { CentrendWrapperRow, CentrendWrapper } from "./styles";
 
 export const RowOrder = ({
@@ -58,10 +59,9 @@ export const RowOrder = ({
           <CentrendWrapperRow style={styles.centrend}>
             <CentrendWrapper flex={0.4}>
               <RegularText
+                fontSize={18}
                 color={
-                  isPaid && isGiven
-                    ? theme.palette.green
-                    : theme.palette.textColor
+                  isPaid && isGiven ? theme.palette.green : theme.palette.salmon
                 }
               >
                 ₴ {profit}
@@ -70,10 +70,9 @@ export const RowOrder = ({
 
             <CentrendWrapper flex={0.8}>
               <RegularText
+                fontSize={16}
                 color={
-                  isPaid && isGiven
-                    ? theme.palette.green
-                    : theme.palette.textColor
+                  isPaid && isGiven ? theme.palette.green : theme.palette.salmon
                 }
               >
                 {name}
@@ -82,10 +81,10 @@ export const RowOrder = ({
 
             <CentrendWrapper flex={0.3}>
               <RegularText>
-                <MaterialIcons
-                  name="local-shipping"
+                <FontAwesome
+                  name="money"
                   size={28}
-                  color={isSheep ? theme.palette.green : theme.palette.grey}
+                  color={isPaid ? theme.palette.green : theme.palette.salmon}
                 />
               </RegularText>
             </CentrendWrapper>
@@ -95,13 +94,14 @@ export const RowOrder = ({
                 <AntDesign
                   name="gift"
                   size={24}
-                  color={isGiven ? theme.palette.green : theme.palette.grey}
+                  color={isGiven ? theme.palette.green : theme.palette.salmon}
                 />
               </RegularText>
             </CentrendWrapper>
 
             <CentrendWrapper flex={0.3}>
               <RegularText
+                fontSize={18}
                 fontWeight={isPaid ? 100 : "bold"}
                 color={isPaid ? theme.palette.green : theme.palette.salmon}
               >

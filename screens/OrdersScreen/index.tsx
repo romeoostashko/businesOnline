@@ -3,7 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
 import { getOrdersDB, getProducts } from "../../store/session/actions";
-import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { RowOrder } from "../../components";
 import { theme } from "../../theme";
 import { RegularText } from "../../components/RegularText/RegularText";
@@ -72,6 +78,13 @@ export const OrdersScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.top}>
+        <Text style={{ flex: 0.3 }}>Прибуток</Text>
+        <Text style={{ flex: 0.2 }}>Ім'я</Text>
+        <Text style={{ flex: 0.1 }}>Опл.</Text>
+        <Text style={{ flex: 0.2 }}>Достав.</Text>
+        <Text style={{ flex: 0.2 }}>Ціна</Text>
+      </View>
       {!load ? (
         <View style={styles.centred}>
           <ActivityIndicator size="large" color="#fff" />
@@ -91,6 +104,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 0,
     marginTop: 0,
+  },
+  top: {
+    height: 30,
+    backgroundColor: "white",
+    marginHorizontal: 2,
+    borderBottomEndRadius: 8,
+    borderBottomStartRadius: 8,
+    flexDirection: "row",
+    paddingHorizontal: 15,
   },
   centred: { justifyContent: "center", alignItems: "center", flex: 1 },
 });

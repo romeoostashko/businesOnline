@@ -3,7 +3,7 @@ import { theme } from "../../../theme";
 import { TouchableNFParam } from "../constants";
 import { TouchableNFWrapper } from "../../../components/TouchableNFWrapper/TouchableNFWrapper";
 import { Icon, RegularText } from "../styles";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 export const Shipping = ({ data, setData }) => {
   const [isEditPrice, setEditPrice] = useState(false);
@@ -13,18 +13,16 @@ export const Shipping = ({ data, setData }) => {
       borderRadius={TouchableNFParam.borderRadiusTNFW}
       width={TouchableNFParam.widthTNFW}
       elevation={TouchableNFParam.elevationTNFW}
-      onPress={() => setData({ ...data, isSheep: !data?.isSheep })}
+      onPress={() => setData({ ...data, isPaid: !data?.isPaid })}
     >
       <Icon>
-        <MaterialIcons
-          name="local-shipping"
+        <FontAwesome
+          name="money"
           size={28}
-          color={data?.isSheep ? theme.palette.green : theme.palette.salmon}
+          color={data?.isPaid ? theme.palette.green : theme.palette.salmon}
         />
       </Icon>
-      <RegularText>
-        {data?.isSheep ? "товар \n прийшов" : "товар \n  не прийшов"}
-      </RegularText>
+      <RegularText>{data?.isPaid ? "Оплачено" : "Не оплачено"}</RegularText>
     </TouchableNFWrapper>
   );
 };

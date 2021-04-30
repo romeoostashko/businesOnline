@@ -32,7 +32,7 @@ export const InputPrice = styled.TextInput`
 export const OutputPrice = styled.Text`
   text-align: center;
   height: 28px;
-  font-size: 14px;
+  font-size: 18px;
   padding: 2px;
   margin-top: 4px;
   border-color: #ccc;

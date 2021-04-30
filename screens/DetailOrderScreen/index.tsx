@@ -68,7 +68,6 @@ export const DetailOrderScreen = ({ navigation }) => {
   };
 
   const changeTextNewProduct = (text: string, name: string) => {
-    //console.log(dataNewProduct);
     setDataNewProduct({
       ...dataNewProduct,
       [name]: text,
@@ -102,19 +101,6 @@ export const DetailOrderScreen = ({ navigation }) => {
           <Delivery data={data} setData={setData} />
         </WrapperTop>
 
-        {/* Кнопка зберегти 
-        <TouchableNFWrapper
-          backgroundColor="salmon"
-          marginTop={20}
-          elevation={4}
-          onPress={() => {
-            updateCustomer(data, id)(dispatch);
-            navigation.goBack();
-          }}
-        >
-          <Text>Зберегти</Text>
-        </TouchableNFWrapper>*/}
-
         <WrapperRowNameOrder>
           <NameInput
             isProducts={false}
@@ -145,11 +131,9 @@ export const DetailOrderScreen = ({ navigation }) => {
           <View>
             <RegularText textAlign="center">Кількість</RegularText>
             <StyledInput
-              //style={{ backgroundColor: "#ccc" }}
               flex={1}
               maxLength={3}
               keyboardType="numeric"
-              //placeholder="Кількість"
               value={dataNewProduct.number.toString()}
               onChangeText={(text: string) =>
                 changeTextNewProduct(text, "number")
@@ -160,11 +144,9 @@ export const DetailOrderScreen = ({ navigation }) => {
           <View>
             <RegularText textAlign="center">Ціна</RegularText>
             <StyledInput
-              //style={{ backgroundColor: "#ccc" }}
               maxLength={4}
               flex={1}
               keyboardType="numeric"
-              //placeholder="Ціна"
               value={dataNewProduct.price.toString()}
               onChangeText={(text: string) =>
                 changeTextNewProduct(text, "price")
@@ -175,11 +157,9 @@ export const DetailOrderScreen = ({ navigation }) => {
           <View>
             <RegularText textAlign="center">Ціна закупки</RegularText>
             <StyledInput
-              //style={{ backgroundColor: "#ccc" }}
               maxLength={4}
               flex={1}
               keyboardType="numeric"
-              //placeholder="Ціна закупки"
               value={dataNewProduct.priceOrigin.toString()}
               onChangeText={(text: string) =>
                 changeTextNewProduct(text, "priceOrigin")
