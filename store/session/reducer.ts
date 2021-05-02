@@ -3,13 +3,14 @@ import {
   SESSION_NEW_CUSTOMER,
   GET_ORDERS_DB,
   GET_PRODUCTS_DB,
+  GET_USERS_DB,
 } from "./constants";
 import { ActionObject } from "./types";
 import { userNames } from "../../data/dammy";
 
 const initialState = {
   orders: {},
-  userNames: userNames,
+  users: {},
   products: {},
 };
 
@@ -27,7 +28,23 @@ export const sessionReduser = (state = initialState, action: ActionObject) => {
       if (!payload) {
         dataProducts = {};
       }
-      return { ...state, products: dataProducts };
+      const formProdacts: object[] = [];
+      Object.entries(dataProducts).forEach((i: any) =>
+        formProdacts.push({ ...i[1], id: i[0] })
+      );
+      return { ...state, products: formProdacts };
+    }
+
+    case GET_USERS_DB: {
+      let dataUsers = { ...payload };
+      if (!payload) {
+        dataUsers = {};
+      }
+      const formUsers: object[] = [];
+      Object.entries(dataUsers).forEach((i: any) =>
+        formUsers.push({ ...i[1], id: i[0] })
+      );
+      return { ...state, users: formUsers };
     }
 
     case GET_ORDERS_DB: {

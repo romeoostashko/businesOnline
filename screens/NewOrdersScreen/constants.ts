@@ -25,3 +25,10 @@ export const emptyNewOrder = {
   number: "",
   profit: 0,
 };
+
+export const emptyUser = {
+  tel: "",
+  name: "",
+  adress: "",
+  comment: "",
+};

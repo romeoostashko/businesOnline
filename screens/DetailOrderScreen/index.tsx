@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ScrollView, FlatList } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
@@ -91,11 +95,20 @@ export const DetailOrderScreen = ({ navigation }) => {
     });
   };
 
+  const deleteProduct = (nameProduct, price, profit, number) => {
+    const newArr = data?.products?.filter((i) => i.nameProduct !== nameProduct);
+    setData({
+      ...data,
+      products: newArr,
+      totalPrice: +data.totalPrice - +price * +number,
+      profit: +data.profit - +dataNewProduct.profit * +number,
+    });
+  };
+
   return (
     <ScrollView>
       <Wrapper>
         <WrapperTop>
-          {/*<Id id={id} />*/}
           <Price setData={setData} data={data} />
           <Shipping data={data} setData={setData} />
           <Delivery data={data} setData={setData} />
@@ -178,30 +191,68 @@ export const DetailOrderScreen = ({ navigation }) => {
           <Text>Додати до корзини</Text>
         </TouchableNFWrapper>
 
-        <FlatList
-          style={{ flexGrow: 1, height: 100, width: "100%" }}
-          data={data?.products}
-          keyExtractor={() => Math.random().toString()}
-          renderItem={({ item }) => (
-            <View style={{ flexDirection: "row" }}>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.number} шт
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.nameProduct}
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.price?.toString()} грн
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.priceOrigin?.toString()} грн
-              </Text>
-              <Text style={{ paddingVertical: 5, marginLeft: 10 }}>
-                {item?.profit?.toString()} грн
-              </Text>
-            </View>
-          )}
-        />
+        <>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ paddingVertical: 5, marginLeft: 10, width: 30 }}>
+              шт
+            </Text>
+            <Text style={{ paddingVertical: 5, marginLeft: 10, width: 100 }}>
+              Імя
+            </Text>
+            <Text style={{ paddingVertical: 5, marginLeft: 10, width: 50 }}>
+              Ціна
+            </Text>
+            <Text style={{ paddingVertical: 5, marginLeft: 10, width: 50 }}>
+              Закуп
+            </Text>
+            <Text style={{ paddingVertical: 5, marginLeft: 10, width: 90 }}>
+              Прибуток
+            </Text>
+          </View>
+          <FlatList
+            style={{ flexGrow: 1, height: 140, width: "100%" }}
+            data={data?.products}
+            keyExtractor={() => Math.random().toString()}
+            renderItem={({ item }) => (
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ paddingVertical: 5, marginLeft: 10, width: 30 }}>
+                  {item?.number}
+                </Text>
+                <Text
+                  style={{ paddingVertical: 5, marginLeft: 10, width: 115 }}
+                >
+                  {item?.nameProduct}
+                </Text>
+                <Text style={{ paddingVertical: 5, marginLeft: 10, width: 50 }}>
+                  {item?.price?.toString()}
+                </Text>
+                <Text style={{ paddingVertical: 5, marginLeft: 10, width: 50 }}>
+                  {item?.priceOrigin?.toString()}
+                </Text>
+                <Text style={{ paddingVertical: 5, marginLeft: 10, width: 40 }}>
+                  {item?.profit?.toString()}
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    deleteProduct(
+                      item?.nameProduct,
+                      item?.price,
+                      item?.profit,
+                      item?.number
+                    )
+                  }
+                  style={{
+                    paddingVertical: 5,
+                    width: 30,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text>X</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </>
 
         <WrapperNotes>
           <Notes

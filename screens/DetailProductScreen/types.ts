@@ -10,6 +10,7 @@ export type Order = {
   products: [];
   profit: number;
   totalPriceOrigin: number;
+  date: string;
 };
 
 export type NewProduct = {
@@ -18,5 +19,12 @@ export type NewProduct = {
   priceOrigin: string;
   number: number;
   profit: number;
+  comment: string;
+};
+
+export type User = {
+  tel: string;
+  name: string;
+  adress: string;
   comment: string;
 };

@@ -35,43 +35,19 @@ export const NameInput = ({
 }) => {
   const [findNames, setFindNames] = useState([]);
   const [hidePanel, setHidePanel] = useState<boolean>(true);
-  const [namesFormat, setNamesFormat] = useState<string[]>([]);
-  const [formUsesNames, setFormUserNames] = useState<object[]>([]);
-  const EXTRAСHARGE = 30; // мінімальна націнка
 
-  //console.log("userNames", userNames);
-  useEffect(() => {
-    const getArrayProducts = () => {
-      const arr: object[] = [];
+  //const EXTRAСHARGE = 30; // мінімальна націнка
 
-      Object?.entries(userNames)?.forEach((i: any) => {
-        arr.push(i[1].name);
-      });
-      setNamesFormat(arr);
-    };
-
-    const formatUserNames = () => {
-      const arr: object[] = [];
-      Object?.entries(userNames)?.forEach((i: any) => {
-        arr.push(i[1]);
-      });
-      setFormUserNames(arr);
-    };
-    getArrayProducts();
-    formatUserNames();
-  }, []);
-
-  //console.log("getArrayProducts", getArrayProducts());
-
+  // пошук назви (товару імені)
   const changeText = (text: string, name: string) => {
     setData({ ...data, [name]: text });
     if (text.length > 1) {
       setHidePanel(false);
       setFindNames(
-        namesFormat?.filter((name: string) => {
-          const arr = name?.split(" ");
+        userNames?.filter((j: any) => {
+          const arr = j?.name?.split(" ");
           return arr?.some((i) =>
-            i.toLocaleLowerCase().startsWith(text.toLocaleLowerCase())
+            i?.toLocaleLowerCase()?.startsWith(text.toLocaleLowerCase())
           );
         })
       );
@@ -79,6 +55,7 @@ export const NameInput = ({
       setFindNames([]);
     }
   };
+  console.log("findNames", findNames);
 
   const quickEntryHandler = (name: string) => {
     setData({
@@ -90,13 +67,15 @@ export const NameInput = ({
         ...data,
         [field]: name,
         priceOrigin: isProducts
-          ? formUsesNames?.find((j: object) => j.name === name).priceOrigin
+          ? userNames?.find((j: object) => j.name === name).priceOrigin
           : null,
         price: isProducts
-          ? +formUsesNames?.find((j: object) => j.name === name).price
+          ? +userNames?.find((j: object) => j.name === name).price
           : null,
         number: isProducts ? "1" : null,
-        profit: isProducts ? EXTRAСHARGE : null,
+        profit: isProducts
+          ? +userNames?.find((j: object) => j.name === name).profit
+          : null,
       });
 
     setHidePanel(true);
@@ -152,13 +131,16 @@ export const NameInput = ({
         {!hidePanel && (
           <View style={{ maxHeight: 200 }}>
             <ScrollView>
-              {findNames.map((name, i) => (
+              {findNames?.map((name, i) => (
                 <TouchableNFWrapper
                   key={Math.random().toString()}
                   backgroundColor={backgroundColor}
-                  onPress={() => quickEntryHandler(name)}
+                  onPress={() => quickEntryHandler(name.name)}
                 >
-                  <RegularText>{name}</RegularText>
+                  <RegularText>
+                    {name.name +
+                      (name.price ? " " + name.priceOrigin + "грн." : "")}
+                  </RegularText>
                 </TouchableNFWrapper>
               ))}
             </ScrollView>

@@ -48,15 +48,15 @@ export const AllProductsScreen = ({ navigation }) => {
         </View>
       ) : (
         <FlatList
-          data={Object.entries(products)}
+          data={products}
           renderItem={({ item }) => (
             <RowProduct
               navigation={navigation}
-              name={item[1].name}
-              id={item[0]}
-              totalPrice={item[1].price}
-              numbers={item[1].number}
-              profit={item[1].profit}
+              name={item.name}
+              id={item.id}
+              totalPrice={item.price}
+              numbers={item.number}
+              profit={item.profit}
             />
           )}
         />

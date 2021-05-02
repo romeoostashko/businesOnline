@@ -32,13 +32,12 @@ export const DetailProductScreen = ({ navigation }) => {
   let thisProduct = {};
 
   if (id !== "NEW_PRODUCT") {
-    const arr = Object?.entries(products);
-    thisProduct = arr?.find((i) => i[0] === id);
+    thisProduct = products?.find((i) => i.id === id);
   }
 
   //const [data, setData] = useState<Order>({ ...(thisProduct[1] || {}) });
   const [dataNewProduct, setDataNewProduct] = useState<NewProduct>({
-    ...(thisProduct[1] || emptyNewProduct),
+    ...(thisProduct || emptyNewProduct),
   });
 
   const onSave = () => {
@@ -75,20 +74,11 @@ export const DetailProductScreen = ({ navigation }) => {
       [name]: text,
       profit:
         name === "number"
-          ? (
-              (+dataNewProduct?.price - +dataNewProduct?.priceOrigin) *
-              +text
-            ).toString()
+          ? (+dataNewProduct?.price - +dataNewProduct?.priceOrigin).toString()
           : name === "price"
-          ? (
-              (+text - +dataNewProduct?.priceOrigin) *
-              +dataNewProduct?.number
-            ).toString()
+          ? (+text - +dataNewProduct?.priceOrigin).toString()
           : name === "priceOrigin"
-          ? (
-              (+dataNewProduct?.price - +text) *
-              +dataNewProduct?.number
-            ).toString()
+          ? (+dataNewProduct?.price - +text).toString()
           : 0,
     });
   };

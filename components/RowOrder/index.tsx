@@ -59,7 +59,7 @@ export const RowOrder = ({
           <CentrendWrapperRow style={styles.centrend}>
             <CentrendWrapper flex={0.4}>
               <RegularText
-                fontSize={18}
+                fontSize={16}
                 color={
                   isPaid && isGiven ? theme.palette.green : theme.palette.salmon
                 }
@@ -83,7 +83,7 @@ export const RowOrder = ({
               <RegularText>
                 <FontAwesome
                   name="money"
-                  size={28}
+                  size={26}
                   color={isPaid ? theme.palette.green : theme.palette.salmon}
                 />
               </RegularText>
@@ -101,7 +101,7 @@ export const RowOrder = ({
 
             <CentrendWrapper flex={0.3}>
               <RegularText
-                fontSize={18}
+                fontSize={16}
                 fontWeight={isPaid ? 100 : "bold"}
                 color={isPaid ? theme.palette.green : theme.palette.salmon}
               >

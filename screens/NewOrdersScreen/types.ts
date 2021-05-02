@@ -19,3 +19,10 @@ export type NewOrder = {
   number: string;
   profit: number;
 };
+
+export type User = {
+  tel: string;
+  name: string;
+  adress: string;
+  comment: string;
+};
