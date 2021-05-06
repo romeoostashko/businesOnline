@@ -37,7 +37,7 @@ export const NameInput = ({
   const [hidePanel, setHidePanel] = useState<boolean>(true);
 
   //const EXTRAСHARGE = 30; // мінімальна націнка
-
+  console.log("userNames", userNames);
   // пошук назви (товару імені)
   const changeText = (text: string, name: string) => {
     setData({ ...data, [name]: text });
@@ -55,7 +55,7 @@ export const NameInput = ({
       setFindNames([]);
     }
   };
-  console.log("findNames", findNames);
+  //console.log("findNames", findNames);
 
   const quickEntryHandler = (name: string) => {
     setData({

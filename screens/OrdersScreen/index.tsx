@@ -2,7 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
-import { getOrdersDB, getProducts } from "../../store/session/actions";
+import {
+  getOrdersDB,
+  getProducts,
+  deleteOrder,
+  getUsers,
+} from "../../store/session/actions";
 import {
   View,
   StyleSheet,
@@ -21,12 +26,11 @@ export const OrdersScreen = ({ navigation }) => {
   const products = useSelector((state: object) => state.session.products);
 
   const [ordersFormat, setOrdersFormat] = useState([]);
-  //console.log("products", products);
-  //console.log("ord", ord);
 
   const getOrders = () => {
     getOrdersDB((x) => setLoad(x))(dispatch);
     getProducts((x) => setLoad(x))(dispatch);
+    getUsers((x) => setLoad(x))(dispatch);
   };
 
   useEffect(() => {
@@ -36,11 +40,13 @@ export const OrdersScreen = ({ navigation }) => {
   useEffect(() => {
     getOrdersDB((x) => setLoad(x))(dispatch);
     getProducts((x) => setLoad(x))(dispatch);
+    getUsers((x) => setLoad(x))(dispatch);
   }, []);
 
   useEffect(() => {
     if (Object?.keys(ord)?.length > 0) {
-      const arr = Object.entries(ord);
+      const arr = Object.entries(ord).reverse();
+      console.log(arr);
       setOrdersFormat(arr);
     }
   }, [ord]);
@@ -61,6 +67,9 @@ export const OrdersScreen = ({ navigation }) => {
         renderItem={(data) => {
           return (
             <RowOrder
+              isOrder
+              deleteActionById={deleteOrder}
+              navigationPath="DetailOrder"
               navigation={navigation}
               name={data.item[1].name}
               id={data.item[0]}

@@ -5,8 +5,8 @@ import { ScreensStackNavigator } from "./ScreensStackNavigator";
 import { NewOrderStackNavigator } from "./NewOrderStackNavigator";
 
 const RouteConfigs = {
-  Orders: ScreensStackNavigator,
-  NewOrders: NewOrderStackNavigator,
+  "Всі замовлення": ScreensStackNavigator,
+  "Нове замовлення": NewOrderStackNavigator,
 };
 
 const TabNavigatorConfig = {

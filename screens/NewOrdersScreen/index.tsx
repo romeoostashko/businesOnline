@@ -4,12 +4,14 @@ import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CustomHeaderButton } from "../../components/HeaderButton";
 import { Text, View, TouchableOpacity } from "react-native";
-import { setNewCustomer, setNewUser } from "../../store/session/actions";
+import {
+  setNewCustomer,
+  setNewUser,
+  setNewProduct,
+} from "../../store/session/actions";
 import { Order, NewOrder, User } from "./types";
 import { emptyData, emptyNewOrder, emptyUser } from "./constants";
 import { RegularText } from "../../components/RegularText/RegularText";
-import { theme } from "../../theme";
-import { Id } from "../DetailOrderScreen/components/Id";
 import { Price } from "../DetailOrderScreen/components/Price";
 import { Shipping } from "../DetailOrderScreen/components/Shipping";
 import { Delivery } from "../DetailOrderScreen/components/Delivery";
@@ -28,7 +30,7 @@ import { TouchableNFWrapper } from "../../components/TouchableNFWrapper/Touchabl
 
 export const NewOrdersScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { orders, userNames, products } = useSelector((state) => state.session);
+  const { orders, users, products } = useSelector((state) => state.session);
   const [data, setData] = useState<Order>(emptyData);
   const [dataNewProduct, setDataNewProduct] = useState<NewOrder>(emptyNewOrder);
 
@@ -47,6 +49,7 @@ export const NewOrdersScreen = ({ navigation }) => {
     );
     console.log("Додаю до корзини..."); /*DEV*/
     if (arr.findIndex((i) => !i[1]) >= 0) {
+      console.log(dataNewProduct);
       console.log("Поля (товар, кількість, ціна) не заповнено"); /*DEV*/
       return;
     } else {
@@ -57,6 +60,18 @@ export const NewOrdersScreen = ({ navigation }) => {
           +data.totalPrice + +dataNewProduct.price * +dataNewProduct.number,
         profit: +data.profit + +dataNewProduct.profit,
       });
+      // перевірка, чи є даний продукт в базі, якщо ні, то дадаємо в products
+      if (!products?.find((i) => i.name === dataNewProduct.nameProduct)) {
+        setNewProduct({
+          name: dataNewProduct.nameProduct,
+          price: dataNewProduct.price,
+          priceOrigin: dataNewProduct.priceOrigin,
+          profit: +dataNewProduct.price - +dataNewProduct.priceOrigin,
+          comment: "",
+          number: 0,
+        })(dispatch);
+      }
+
       setDataNewProduct(emptyNewOrder);
       console.log("Товар успішно додано до корзини +"); /*DEV*/
     }
@@ -88,13 +103,15 @@ export const NewOrdersScreen = ({ navigation }) => {
   const onSave = () => {
     if (data.name.length > 3 && data.products && data.totalPrice) {
       setNewCustomer({ ...data, date: new Date().toString() })(dispatch);
-      setNewUser({
-        ...emptyUser,
-        name: data.name,
-        adress: data.adress,
-      })(dispatch);
+      if (!users?.find((i) => i.name === data.name)) {
+        // перевірка чи вже є користувач, якщо ні, то зберігаємо нового в users
+        setNewUser({
+          ...emptyUser,
+          name: data.name,
+          adress: data.adress,
+        })(dispatch);
+      }
       setData(emptyData);
-
       navigation.navigate("Orders");
     }
   };
@@ -123,7 +140,7 @@ export const NewOrdersScreen = ({ navigation }) => {
             isProducts={false}
             placeholder="Ім'я клієнта"
             field="name"
-            userNames={userNames}
+            userNames={users}
             setData={setData}
             data={data}
             position={{ top: 51 }}

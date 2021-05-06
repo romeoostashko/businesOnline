@@ -4,3 +4,4 @@ export { DetailOrderScreen } from "./DetailOrderScreen";
 export { AllProductsScreen } from "./AllProductsScreen";
 export { StatisticScreen } from "./StatisticScreen";
 export { DetailProductScreen } from "./DetailProductScreen";
+export { AllClientsScreen } from "./AllClientsScreen";

@@ -5,6 +5,7 @@ import {
   AllProductsScreen,
   StatisticScreen,
   DetailProductScreen,
+  AllClientsScreen,
 } from "../screens";
 import { TopTabNanigator } from "./TopTabsNavigators";
 import { StackNavigatorConfig } from "./constatnts";
@@ -16,6 +17,7 @@ const AllProductsDrawerNav = createStackNavigator(
   },
   StackNavigatorConfig
 );
+
 const StatisticDrawerNav = createStackNavigator(
   {
     Statistic: StatisticScreen,
@@ -23,9 +25,17 @@ const StatisticDrawerNav = createStackNavigator(
   StackNavigatorConfig
 );
 
+const ClientsDrawerNav = createStackNavigator(
+  {
+    Clients: AllClientsScreen,
+  },
+  StackNavigatorConfig
+);
+
 const RouteConfigs = {
   Замовлення: TopTabNanigator,
   "Всі товари": AllProductsDrawerNav,
+  "Всі клієнти": ClientsDrawerNav,
   Статистика: StatisticDrawerNav,
 };
 
